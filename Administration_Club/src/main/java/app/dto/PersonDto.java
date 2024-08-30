@@ -4,7 +4,7 @@ public class PersonDto {
     private long id;
     private long cedula;
     private String name;
-    private long celPhone;
+    private long cellPhone;
 
     public long getId() {
         return id;
@@ -31,11 +31,11 @@ public class PersonDto {
     }
 
     public long getCelPhone() {
-        return celPhone;
+        return cellPhone;
     }
 
     public void setCelPhone(long celPhone) {
-        this.celPhone = celPhone;
+        this.cellPhone = celPhone;
     }
     
     
