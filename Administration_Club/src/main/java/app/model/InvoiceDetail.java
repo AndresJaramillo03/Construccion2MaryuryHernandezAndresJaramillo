@@ -1,6 +1,6 @@
 package app.model;
 
-public class Detail_Invoice {
+public class InvoiceDetail {
     private long id; 
     private Invoice invoiceId; 
     private int item;
