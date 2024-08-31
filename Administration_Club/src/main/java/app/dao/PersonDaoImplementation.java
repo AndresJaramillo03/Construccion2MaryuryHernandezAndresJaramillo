@@ -46,7 +46,7 @@ public class PersonDaoImplementation implements PersonDao {
 
 	@Override
 	public PersonDto findByDocument(PersonDto personDto) throws Exception {
-		String query = "SELECT ID,NAME,CEDULA,CELLPHONE FROM PERSON WHERE DOCUMENT = ?";
+		String query = "SELECT ID,NAME,DOCUMENT,CELLPHONE FROM PERSON WHERE DOCUMENT = ?";
 		PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
 		preparedStatement.setLong(1, personDto.getCedula());
 		ResultSet resulSet = preparedStatement.executeQuery();
@@ -54,8 +54,8 @@ public class PersonDaoImplementation implements PersonDao {
 			Person person = new Person();
 			person.setId(resulSet.getLong("ID"));
 			person.setName(resulSet.getString("NAME"));
-			person.setCedula(resulSet.getLong("CEDULA"));
-			person.setCelPhone(resulSet.getInt("CELPHONE"));
+			person.setCedula(resulSet.getLong("DOCUMENT"));
+			person.setCelPhone(resulSet.getLong("CELPHONE"));
 			resulSet.close();
 			preparedStatement.close();
 			return Helper.parse(person);

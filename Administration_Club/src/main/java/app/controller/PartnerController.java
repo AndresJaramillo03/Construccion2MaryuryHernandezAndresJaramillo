@@ -4,18 +4,56 @@ import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
 import app.dto.PersonDto;
 import app.dto.UserDto;
+import app.service.Service;
 
 public class PartnerController implements ControllerInterface {
     private PersonValidator personValidator;
     private UserValidator userValidator;
+    private static final String MENU = "ingrese la opcion que desea \n 1.para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4.para solicitar baja \n 5. para cerrar sesion \n";
+
     
     @Override
 	public void session() throws Exception {
 		boolean session = true;
 		while (session) {
-			//session = menu();
+			session = menu();
 		}
 
+	}
+	private boolean menu() {
+		try {
+			//System.out.println("bienvenido " + Service.user.getUserName());
+			System.out.print(MENU);
+			String option = Utils.getReader().nextLine();
+			return options(option);
+
+		} catch (
+
+		Exception e) {
+			System.out.println(e.getMessage());
+			return true;
+		}
+	}
+
+	private boolean options(String option) throws Exception{
+		switch (option) {
+		case "1": {
+			this.createGuest();
+			return true;
+		}
+		case "2": {
+			//this.createSeller();
+			return true;
+		}
+		case "3": {
+			System.out.println("se ha cerrado sesion");
+			return false;
+		}
+		default: {
+			System.out.println("ingrese una opcion valida");
+			return true;
+		}
+		}
 	}
     
     private void createGuest()throws Exception{

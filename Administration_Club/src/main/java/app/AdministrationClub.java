@@ -1,5 +1,7 @@
 package app;
 
+import app.controller.ControllerInterface;
+
 public class AdministrationClub {
         public static void main(String[] args) throws Exception {
 		ControllerInterface controller = new LoginController();

@@ -15,14 +15,14 @@ public class LoginController implements ControllerInterface{
 		this.userValidator= new UserValidator();
 		//this.service = new Service();
 		ControllerInterface adminController = new AdminController();
+		ControllerInterface partnerController = new PartnerController();
+                ControllerInterface guestController = (ControllerInterface) new GuestController();
 		ControllerInterface PartnerController = new PartnerController();
-                ControllerInterface GuestController = new Controller();
-		ControllerInterface PartnerController = new PartnerController();
-		ControllerInterface veterinarianController = new VeterinarianController();
+		//ControllerInterface clubController = new ClubController();
 		this.roles= new HashMap<String,ControllerInterface>();
 		roles.put("admin", adminController);
-		roles.put("veterinarian", veterinarianController);
-		roles.put("seller", sellerController);
+		roles.put("partner", partnerController);
+		roles.put("guest", guestController);
 	}
 	@Override
 	public void session() throws Exception {
@@ -69,7 +69,7 @@ public class LoginController implements ControllerInterface{
 		UserDto userDto = new UserDto();
 		userDto.setPassword(password);
 		userDto.setUserName(userName);
-		this.service.login(userDto);
+		//this.service.login(userDto);
 		if(roles.get(userDto.getRole())==null) {
 			throw new Exception ("Rol invalido");
 		}
