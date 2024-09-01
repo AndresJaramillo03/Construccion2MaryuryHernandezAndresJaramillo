@@ -1,6 +1,5 @@
 package app.controller.validator;
 
-
 public class InvoiceValidator extends CommonsValidator {
     	public InvoiceValidator() {
 		super();

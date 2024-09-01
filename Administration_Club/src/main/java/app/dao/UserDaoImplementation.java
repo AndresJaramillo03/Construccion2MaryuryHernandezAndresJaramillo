@@ -60,5 +60,16 @@ public class UserDaoImplementation implements UserDao {
 		preparedStatement.execute();
 		preparedStatement.close();
 		}
-
+        
+        @Override
+        public void updateUser(UserDto userDto) throws Exception {
+            String query = "UPDATE USER SET PASSWORD = ?, ROLE = ?, PERSONID = ? WHERE USERNAME = ?";
+            PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, userDto.getPassword());
+            preparedStatement.setString(2, userDto.getRole());
+            preparedStatement.setLong(3, userDto.getPersonId().getId());
+            preparedStatement.setString(4, userDto.getUserName());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
 }

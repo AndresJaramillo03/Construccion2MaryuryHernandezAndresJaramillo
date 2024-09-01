@@ -10,11 +10,9 @@ import app.service.interfaces.LoginService;
 import java.sql.SQLException;
 import app.dto.PartnerDto;
 
-//public class Service implements AdminService, LoginService , PartnerService {
 public class Service implements LoginService {
         private UserDao userDao;
         private PersonDao personDao;
-        //private InvoiceDao invoiceDao;
         private UserDto userDto;
         private PartnerDto partnerDto;
         
@@ -34,7 +32,7 @@ public class Service implements LoginService {
             }
 
             if (!userDto.getPassword().equals(validateDto.getPassword())) {
-                throw new Exception("usuario o contraseña incorrecto");
+                throw new Exception("usuario o contrasena incorrecto");
             }
 
             userDto.setRole(validateDto.getRole());
@@ -54,8 +52,8 @@ public class Service implements LoginService {
 		this.createPerson(userDto.getPersonId());
 		PersonDto personDto = personDao.findByDocument(userDto.getPersonId());
                 if (personDto == null) {
-    throw new Exception("No se pudo encontrar la persona con el documento proporcionado.");
-}
+                    throw new Exception("No se pudo encontrar la persona con el documento proporcionado");
+                }
 		userDto.setPersonId(personDto);
 		if (this.userDao.existsByUserName(userDto)) {
 			this.personDao.deletePerson(userDto.getPersonId());
@@ -78,5 +76,23 @@ public class Service implements LoginService {
         @Override
         public void createPartner(UserDto partnerDto) throws Exception {
             this.createUser(partnerDto);
+        }
+        
+        public UserDto findUserByUsername(String username) throws Exception {
+            UserDto userDto = new UserDto();
+            userDto.setUserName(username); 
+            UserDto foundUserDto = userDao.findByUserName(userDto);
+
+            if (foundUserDto == null) {
+                throw new Exception("Usuario no encontrado.");
+            }
+            return foundUserDto;
+        }
+
+        public void updateUser(UserDto userDto) throws Exception {
+            if (userDto == null || userDto.getUserName() == null) {
+                throw new Exception("Datos de usuario invalidos");
+            }
+            userDao.updateUser(userDto);
         }
 }

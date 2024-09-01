@@ -8,4 +8,6 @@ public interface UserDao {
 	public boolean existsByUserName(UserDto userDto) throws Exception;
 	
 	public void createUser(UserDto userDto) throws Exception;
+        
+        public void updateUser(UserDto userDto) throws Exception;
 }
