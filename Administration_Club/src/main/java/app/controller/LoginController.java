@@ -5,12 +5,17 @@ import app.dto.UserDto;
 import app.service.Service;
 import java.util.HashMap;
 import java.util.Map;
+import app.controller.ControllerInterface;
+import app.service.interfaces.LoginService;
 
 public class LoginController implements ControllerInterface{
 	private UserValidator userValidator;
+        private LoginService service;
 	//private LoginService service;
 	private static final String MENU= "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 2. para detener la ejecucion.";
 	private Map<String,ControllerInterface> roles;
+        
+        
 	public LoginController() {
 		this.userValidator= new UserValidator();
 		//this.service = new Service();
@@ -18,7 +23,6 @@ public class LoginController implements ControllerInterface{
 		ControllerInterface partnerController = new PartnerController();
                 ControllerInterface guestController = (ControllerInterface) new GuestController();
 		ControllerInterface PartnerController = new PartnerController();
-		//ControllerInterface clubController = new ClubController();
 		this.roles= new HashMap<String,ControllerInterface>();
 		roles.put("admin", adminController);
 		roles.put("partner", partnerController);
@@ -66,17 +70,15 @@ public class LoginController implements ControllerInterface{
 		System.out.println("ingrese la contraseÃ±a");
 		String password= Utils.getReader().nextLine();
 		userValidator.validPassword(password);
+                
 		UserDto userDto = new UserDto();
 		userDto.setPassword(password);
 		userDto.setUserName(userName);
-		//this.service.login(userDto);
+		this.service.login(userDto);
+                
 		if(roles.get(userDto.getRole())==null) {
 			throw new Exception ("Rol invalido");
 		}
-		roles.get(userDto.getRole()).session();
-		
+		roles.get(userDto.getRole()).session();	
 	}
-	
-	
-
 }
