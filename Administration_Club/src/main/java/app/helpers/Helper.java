@@ -10,7 +10,7 @@ public abstract class Helper {
 		PersonDto personDto = new PersonDto();
 		personDto.setId(person.getId());
 		personDto.setCedula(person.getCedula());
-		personDto.setCelPhone(person.getCelPhone());
+		personDto.setCellPhone(person.getCellPhone());
 		personDto.setName(person.getName());
 		return personDto;
 	}
@@ -19,7 +19,7 @@ public abstract class Helper {
 		Person person = new Person();
 		person.setId(personDto.getId());
 		person.setCedula(personDto.getCedula());
-		person.setCelPhone(personDto.getCelPhone());
+		person.setCellPhone(personDto.getCellPhone());
 		person.setName(personDto.getName());
 		return person;
 	}

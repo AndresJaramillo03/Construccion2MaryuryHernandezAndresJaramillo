@@ -11,14 +11,13 @@ import app.service.interfaces.LoginService;
 public class LoginController implements ControllerInterface{
 	private UserValidator userValidator;
         private LoginService service;
-	//private LoginService service;
 	private static final String MENU= "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 2. para detener la ejecucion.";
 	private Map<String,ControllerInterface> roles;
         
         
 	public LoginController() {
 		this.userValidator= new UserValidator();
-		//this.service = new Service();
+		this.service = new Service();
 		ControllerInterface adminController = new AdminController();
 		ControllerInterface partnerController = new PartnerController();
                 ControllerInterface guestController = (ControllerInterface) new GuestController();
@@ -70,6 +69,7 @@ public class LoginController implements ControllerInterface{
 		System.out.println("ingrese la contraseÃ±a");
 		String password= Utils.getReader().nextLine();
 		userValidator.validPassword(password);
+                
                 
 		UserDto userDto = new UserDto();
 		userDto.setPassword(password);

@@ -5,8 +5,8 @@ public class PartnerValidator extends CommonsValidator {
             super();
 	}
 	
-	public void validAmount(String amount) throws Exception{
-		super.isValidString("El valor no es correcto ", amount);
+	public double validAmount(String amount) throws Exception{
+		return super.isValidDouble("El monto del socio", amount);
 	}
         
         public void validType(String Type) throws Exception{

@@ -30,7 +30,7 @@ public class PersonDaoImplementation implements PersonDao {
 		PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
 		preparedStatement.setString(1, person.getName());
 		preparedStatement.setLong(2,person.getCedula());
-		preparedStatement.setLong(3, person.getCelPhone());
+		preparedStatement.setLong(3, person.getCellPhone());
 		preparedStatement.execute();
 		preparedStatement.close();
 	}
@@ -55,7 +55,7 @@ public class PersonDaoImplementation implements PersonDao {
 			person.setId(resulSet.getLong("ID"));
 			person.setName(resulSet.getString("NAME"));
 			person.setCedula(resulSet.getLong("DOCUMENT"));
-			person.setCelPhone(resulSet.getLong("CELPHONE"));
+			person.setCellPhone(resulSet.getLong("CELLPHONE"));
 			resulSet.close();
 			preparedStatement.close();
 			return Helper.parse(person);

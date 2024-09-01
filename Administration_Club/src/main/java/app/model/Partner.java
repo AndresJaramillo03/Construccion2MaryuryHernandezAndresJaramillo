@@ -7,7 +7,7 @@ public class Partner {
     private long id;
     private User userId;
     private double amount;
-    private boolean type; 
+    private String type; 
     private Date date;
 
     public long getId() {
@@ -34,11 +34,11 @@ public class Partner {
         this.amount = amount;
     }
 
-    public boolean isType() {
+    public String isType() {
         return type;
     }
 
-    public void setType(boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 

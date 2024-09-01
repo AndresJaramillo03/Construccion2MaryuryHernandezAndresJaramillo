@@ -30,12 +30,12 @@ public class PersonDto {
         this.name = name;
     }
 
-    public long getCelPhone() {
+    public long getCellPhone() {
         return cellPhone;
     }
 
-    public void setCelPhone(long celPhone) {
-        this.cellPhone = celPhone;
+    public void setCellPhone(long cellPhone) {
+        this.cellPhone = cellPhone;
     }
     
     

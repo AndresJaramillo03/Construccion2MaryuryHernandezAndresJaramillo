@@ -1,13 +1,14 @@
 package app.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class PartnerDto {
     private long id;
     private UserDto userId;
     private double amount;
-    private boolean type; 
-    private Date date;
+    private String type; 
+    private LocalDateTime creationDate;
 
     public long getId() {
         return id;
@@ -33,21 +34,22 @@ public class PartnerDto {
         this.amount = amount;
     }
 
-    public boolean isType() {
+    public String isType() {
         return type;
     }
 
-    public void setType(boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
+
+
     
-
 }

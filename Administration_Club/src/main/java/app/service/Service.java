@@ -8,6 +8,7 @@ import app.dao.interfaces.PersonDao;
 import app.dao.interfaces.UserDao;
 import app.service.interfaces.LoginService;
 import java.sql.SQLException;
+import app.dto.PartnerDto;
 
 //public class Service implements AdminService, LoginService , PartnerService {
 public class Service implements LoginService {
@@ -15,6 +16,7 @@ public class Service implements LoginService {
         private PersonDao personDao;
         //private InvoiceDao invoiceDao;
         private UserDto userDto;
+        private PartnerDto partnerDto;
         
         public static UserDto user;
         
@@ -48,8 +50,12 @@ public class Service implements LoginService {
     }
 
 	private void createUser(UserDto userDto) throws Exception {
+            
 		this.createPerson(userDto.getPersonId());
 		PersonDto personDto = personDao.findByDocument(userDto.getPersonId());
+                if (personDto == null) {
+    throw new Exception("No se pudo encontrar la persona con el documento proporcionado.");
+}
 		userDto.setPersonId(personDto);
 		if (this.userDao.existsByUserName(userDto)) {
 			this.personDao.deletePerson(userDto.getPersonId());
@@ -68,4 +74,9 @@ public class Service implements LoginService {
 		}
 		this.personDao.createPerson(personDto);
 	}
+            
+        @Override
+        public void createPartner(UserDto partnerDto) throws Exception {
+            this.createUser(partnerDto);
+        }
 }

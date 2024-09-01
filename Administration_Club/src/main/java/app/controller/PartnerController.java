@@ -75,7 +75,7 @@ public class PartnerController implements ControllerInterface {
         PersonDto personDto = new PersonDto();
         personDto.setName(name);
         personDto.setCedula(cedula); 
-        personDto.setCelPhone(celPhone); 
+        personDto.setCellPhone(celPhone); 
         
         UserDto userDto = new UserDto();
         userDto.setUserName(username);
