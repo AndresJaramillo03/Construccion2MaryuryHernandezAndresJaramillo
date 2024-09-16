@@ -9,8 +9,9 @@ import app.dao.interfaces.UserDao;
 import app.service.interfaces.LoginService;
 import java.sql.SQLException;
 import app.dto.PartnerDto;
+import app.service.interfaces.AdminService;
 
-public class Service implements LoginService {
+public class Service implements LoginService, AdminService {
         private UserDao userDao;
         private PersonDao personDao;
         private UserDto userDto;
@@ -74,8 +75,11 @@ public class Service implements LoginService {
 	}
             
         @Override
-        public void createPartner(UserDto partnerDto) throws Exception {
-            this.createUser(partnerDto);
+        public void createPartner(PartnerDto partnerDto) throws Exception {
+            //Tener en cuenta para futuras correcciones.
+            this.createUser(partnerDto.getUserId());
+            partnerDto.setUserId(userDao.findByUserName(partnerDto.getUserId()));
+            
         }
         
         public UserDto findUserByUsername(String username) throws Exception {

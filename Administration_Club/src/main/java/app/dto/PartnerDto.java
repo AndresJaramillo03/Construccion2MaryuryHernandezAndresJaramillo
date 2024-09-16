@@ -10,6 +10,9 @@ public class PartnerDto {
     private String type; 
     private LocalDateTime creationDate;
 
+    public PartnerDto() {
+    }
+
     public long getId() {
         return id;
     }

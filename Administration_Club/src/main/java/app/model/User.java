@@ -6,7 +6,10 @@ public class User {
     private String password; 
     private String role; 
     private Person personId;
-    
+
+    public User() {
+    }
+        
     public long getId() {
         return id;
     }

@@ -8,7 +8,10 @@ public class InvoiceDto {
     private PartnerDto partnerId;
     private Date creationDate;
     private double totalAmount;
-    private boolean status; 
+    private boolean status;
+
+    public InvoiceDto() {
+    }
 
     public long getId() {
         return id;
