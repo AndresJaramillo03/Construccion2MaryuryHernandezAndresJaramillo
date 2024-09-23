@@ -93,11 +93,4 @@ public class Service implements LoginService, AdminService {
             }
             return foundUserDto;
         }
-
-        public void updateUser(UserDto userDto) throws Exception {
-            if (userDto == null || userDto.getUserName() == null) {
-                throw new Exception("Datos de usuario invalidos");
-            }
-            userDao.updateUser(userDto);
-        }
 }

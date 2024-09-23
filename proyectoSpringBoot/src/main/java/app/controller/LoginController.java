@@ -7,7 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 import app.controller.ControllerInterface;
 import app.service.interfaces.LoginService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Controller;
 
+
+@Controller
+@Getter
+@Setter
+@NoArgsConstructor
 public class LoginController implements ControllerInterface{
 	private UserValidator userValidator;
         private LoginService service;

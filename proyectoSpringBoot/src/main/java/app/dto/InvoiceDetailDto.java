@@ -1,6 +1,6 @@
 package app.dto;
 
-public class Detail_InvoiceDto {
+public class InvoiceDetailDto {
     private long id; 
     private InvoiceDto invoiceId; 
     private int item;

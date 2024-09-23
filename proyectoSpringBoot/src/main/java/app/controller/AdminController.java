@@ -10,12 +10,27 @@ import app.service.interfaces.AdminService;
 import app.service.interfaces.LoginService;
 import java.time.LocalDateTime;
 import app.dto.PartnerDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+@Controller
+@Getter
+@Setter
+@NoArgsConstructor
 
 public class AdminController implements ControllerInterface { 
+        @Autowired
     	private PersonValidator personValidator;
+        @Autowired
 	private UserValidator userValidator;
+        @Autowired
         private PartnerValidator partnerValidator;
+        @Autowired
 	private AdminService adminService;
+        @Autowired
         private AdminService service;
 	private static final String MENU = "ingrese la opcion que desea \n 1. para crear socio \n 2. para ver factura Club \n 3. para ver factura Socio \n 4. para ver factura Invitado \n 5. para aprobar promocion \n 6. para cerrar sesion \n";
 

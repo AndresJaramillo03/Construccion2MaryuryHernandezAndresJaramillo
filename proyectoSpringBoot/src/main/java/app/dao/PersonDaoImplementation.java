@@ -8,10 +8,18 @@ import app.helpers.Helper;
 import app.model.Person;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 
 public class PersonDaoImplementation implements PersonDao {
-    
+        @Autowired
         PersonRepository personRepository;
 
 	@Override

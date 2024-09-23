@@ -1,64 +1,36 @@
 package app.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name="invoice")
 
 public class Invoice {
+    @Id
+    @GeneratedValue (strategy=GenerationType.IDENTITY)
+    @Column (name = "id")
     private long id; 
+    @Column (name = "userid")
     private User userId; 
+    @Column (name = "parterid")
     private Partner partnerId;
+    @Column (name = "creatidate")
     private Date creationDate;
+    @Column (name = "totalamount")
     private double totalAmount;
+    @Column (name = "status")
     private boolean status; 
 
-    public Invoice() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
-    public Partner getPartnerId() {
-        return partnerId;
-    }
-
-    public void setPartnerId(Partner partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }     
-    
 }
