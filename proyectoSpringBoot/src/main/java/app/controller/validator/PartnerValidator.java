@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 @Component  
 
 public class PartnerValidator extends CommonsValidator {
-        public PartnerValidator () {
-            super();
-	}
+        
 	
 	public double validAmount(String amount) throws Exception{
 		return super.isValidDouble("El monto del socio", amount);

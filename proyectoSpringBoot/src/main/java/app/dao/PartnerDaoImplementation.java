@@ -19,11 +19,11 @@ import app.model.Partner;
 
 public class PartnerDaoImplementation implements PartnerDao{
         @Autowired
-        PersonRepository personRepository;
+        PartnerRepository partnerRepository;
         
 	@Override
 	public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception {
-                Partner partner = PartnerRepository.findByUserId(partnerDto.getUserId());
+                Partner partner = partnerRepository.findByUserId(partnerDto.getUserId());
                 return Helper.parse(partner);
 	}
 
@@ -39,5 +39,25 @@ public class PartnerDaoImplementation implements PartnerDao{
 		userRepository.save(user);
                 userDto.setId(user.getId());
 		}*/
+
+    @Override
+    public PartnerDto findByUserName(PartnerDto userDto) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean existsByUserName(PartnerDto userDto) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public void createUser(PartnerDto userDto) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public void createPartner(PartnerDto partnerDto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

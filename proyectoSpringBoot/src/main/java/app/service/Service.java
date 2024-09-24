@@ -2,6 +2,7 @@ package app.service;
 
 import app.dao.PersonDaoImplementation;
 import app.dao.UserDaoImplementation;
+import app.dao.interfaces.PartnerDao;
 import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.dao.interfaces.PersonDao;
@@ -14,8 +15,7 @@ import app.service.interfaces.AdminService;
 public class Service implements LoginService, AdminService {
         private UserDao userDao;
         private PersonDao personDao;
-        private UserDto userDto;
-        private PartnerDto partnerDto;
+        private PartnerDao partnerDao;
         
         public static UserDto user;
         
@@ -93,4 +93,8 @@ public class Service implements LoginService, AdminService {
             }
             return foundUserDto;
         }
+
+    public void updateUser(UserDto userDto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

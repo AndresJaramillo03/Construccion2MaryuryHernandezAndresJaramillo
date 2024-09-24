@@ -10,6 +10,7 @@ import app.service.interfaces.AdminService;
 import app.service.interfaces.LoginService;
 import java.time.LocalDateTime;
 import app.dto.PartnerDto;
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,12 +35,6 @@ public class AdminController implements ControllerInterface {
         private AdminService service;
 	private static final String MENU = "ingrese la opcion que desea \n 1. para crear socio \n 2. para ver factura Club \n 3. para ver factura Socio \n 4. para ver factura Invitado \n 5. para aprobar promocion \n 6. para cerrar sesion \n";
 
-	public AdminController() {
-                this.partnerValidator = new PartnerValidator();
-		this.personValidator = new PersonValidator();
-		this.userValidator = new UserValidator();
-		this.service = new Service();
-	}
 
        
 	@Override
@@ -136,7 +131,7 @@ public class AdminController implements ControllerInterface {
         partnerDto.setUserId(userDto);
         partnerDto.setAmount(amount);
         partnerDto.setType(type);
-        partnerDto.setCreationDate(LocalDateTime.now());
+        partnerDto.setCreationDate(new Timestamp(System.currentTimeMillis()));
         this.service.createPartner(partnerDto);
         System.out.println("El usuario ha sido creado exitosamente");
                 

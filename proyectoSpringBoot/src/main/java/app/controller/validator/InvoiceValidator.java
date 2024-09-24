@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 @Component  
 
 public class InvoiceValidator extends CommonsValidator {
-    	public InvoiceValidator() {
-		super();
-	}
+    	
 	
 	public void validItems(String items)throws Exception {
 		super.isValidString("items de la factura", items);

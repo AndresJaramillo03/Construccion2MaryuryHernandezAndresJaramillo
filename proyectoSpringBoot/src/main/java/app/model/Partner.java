@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.Date;
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +33,6 @@ public class Partner {
     @Column (name = "type")
     private String type; 
     @Column (name = "date")
-    private Date date;
+    private Timestamp date;
    
 }

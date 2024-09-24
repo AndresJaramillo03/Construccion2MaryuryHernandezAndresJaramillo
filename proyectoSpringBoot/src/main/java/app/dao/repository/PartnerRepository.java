@@ -5,7 +5,7 @@ import app.model.Partner;
 
 public interface PartnerRepository {
 
-    public static Partner findByUserId(UserDto userId);
+    public  Partner findByUserId(UserDto userId);
     
     
 }

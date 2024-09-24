@@ -4,6 +4,9 @@ import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.model.Person;
 import app.model.User;
+import app.model.Partner;
+import app.dto.PartnerDto;
+import java.time.LocalDateTime;
 
 public abstract class Helper {
 	public static PersonDto parse(Person person) {
@@ -43,7 +46,24 @@ public abstract class Helper {
 		user.setUserName(userDto.getUserName());
 		return user;
 	}
+        
+	public static PartnerDto parse(Partner partner) {
+		PartnerDto partnerDto = new PartnerDto();
+		partnerDto.setId(partner.getId());
+		partnerDto.setUserId(parse(partner.getUserId()));
+		partnerDto.setAmount(partner.getAmount());
+		partnerDto.setType(partner.getType());
+		partnerDto.setCreationDate(partner.getDate());
+		return partnerDto;
+	}
+        
+	public static Partner parse(PartnerDto partnerDto) {
+		Partner partner = new Partner();
+		partner.setId(partnerDto.getId());
+		partner.setUserId(parse(partnerDto.getUserId()));
+		partner.setAmount(partnerDto.getAmount());
+		partner.setType(partnerDto.getType());
+		partner.setDate(partnerDto.getCreationDate());
+		return partner;
+	}
 }
-    
-    
-

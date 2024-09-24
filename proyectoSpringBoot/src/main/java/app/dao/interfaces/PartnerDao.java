@@ -11,5 +11,8 @@ public interface PartnerDao {
 	public boolean existsByUserName(PartnerDto userDto) throws Exception;
 	
 	public void createUser(PartnerDto userDto) throws Exception;
-    
+        
+        public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception;
+
+    public void createPartner(PartnerDto partnerDto);
 }
