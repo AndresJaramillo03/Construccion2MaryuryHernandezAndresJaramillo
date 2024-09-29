@@ -2,7 +2,7 @@ package app.controller;
 
 import app.controller.validator.UserValidator;
 import app.dto.UserDto;
-import app.service.Service;
+import app.service.ClubService;
 import java.util.HashMap;
 import java.util.Map;
 import app.controller.ControllerInterface;

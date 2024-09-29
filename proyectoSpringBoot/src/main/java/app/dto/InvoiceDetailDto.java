@@ -1,11 +1,15 @@
 package app.dto;
 
+
 public class InvoiceDetailDto {
     private long id; 
     private InvoiceDto invoiceId; 
     private int item;
     private String description;
-    private double amount; 
+    private double amount;
+
+    public InvoiceDetailDto() {
+    }
 
     public long getId() {
         return id;
@@ -47,6 +51,5 @@ public class InvoiceDetailDto {
         this.amount = amount;
     }
     
-    
-    
+
 }

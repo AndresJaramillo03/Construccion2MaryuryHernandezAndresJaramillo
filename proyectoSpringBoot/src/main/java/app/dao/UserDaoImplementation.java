@@ -9,7 +9,16 @@ import app.model.Person;
 import app.model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 
 public class UserDaoImplementation implements UserDao {
     
@@ -34,4 +43,11 @@ public class UserDaoImplementation implements UserDao {
 		userRepository.save(user);
                 userDto.setId(user.getId());
 		}
+        
+        @Override
+        public void updateUser (UserDto userDto) throws Exception {
+            User user = Helper.parse(userDto);
+            userRepository.save(user);
+            
+        }
 }

@@ -9,5 +9,7 @@ public interface UserDao {
 	
 	public void createUser(UserDto userDto) throws Exception;
         
+        public void updateUser (UserDto userDto) throws Exception;
+        
         
 }

@@ -6,13 +6,13 @@ import app.dto.UserDto;
 
 public interface PartnerDao {
     
-    	public PartnerDto findByUserName(PartnerDto userDto) throws Exception;
+    	public PartnerDto findById(PartnerDto userDto) throws Exception;
 
-	public boolean existsByUserName(PartnerDto userDto) throws Exception;
-	
-	public void createUser(PartnerDto userDto) throws Exception;
+	public boolean existsById(PartnerDto userDto) throws Exception;
         
         public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception;
 
-    public void createPartner(PartnerDto partnerDto);
+        public void createPartner(PartnerDto partnerDto) throws Exception;
+    
+        public void updatePartner (PartnerDto partnerDto) throws Exception;
 }

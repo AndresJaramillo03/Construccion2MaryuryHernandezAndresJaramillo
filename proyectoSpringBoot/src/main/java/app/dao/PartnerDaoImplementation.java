@@ -18,41 +18,25 @@ import app.model.Partner;
 @Service
 
 public class PartnerDaoImplementation implements PartnerDao{
-        @Autowired
-        PartnerRepository partnerRepository;
-        
-	@Override
-	public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception {
-                Partner partner = partnerRepository.findByUserId(partnerDto.getUserId());
-                return Helper.parse(partner);
-	}
-
-	/*@Override
-	public boolean existsByUserName(PartnerDto userDto) throws Exception {
-		return userRepository.existsByUserName(userDto.getUserName());
-                
-		}
-
-	@Override
-	public void createUser(PartnerDto userDto) throws Exception {
-		User user = Helper.parse(userDto);
-		userRepository.save(user);
-                userDto.setId(user.getId());
-		}*/
+    @Autowired
+    PartnerRepository partnerRepository;
 
     @Override
-    public PartnerDto findByUserName(PartnerDto userDto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception {
+            Partner partner = partnerRepository.findByUserId(partnerDto.getUserId());
+            //if()
+            //throw new Exception("");
+            return Helper.parse(partner);
     }
 
     @Override
-    public boolean existsByUserName(PartnerDto userDto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public PartnerDto findById(PartnerDto partnerDto) throws Exception {
+         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void createUser(PartnerDto userDto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public boolean existsById(PartnerDto partnerDto) throws Exception {
+        return partnerRepository.existsById(partnerDto.getId());
     }
 
     @Override
@@ -60,4 +44,9 @@ public class PartnerDaoImplementation implements PartnerDao{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    @Override
+    public void updatePartner (PartnerDto partnerDto) throws Exception {
+        Partner partner  = Helper.parse(partnerDto);
+        partnerRepository.save(partner);
+    }
 }

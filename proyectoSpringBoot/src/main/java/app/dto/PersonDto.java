@@ -6,6 +6,10 @@ public class PersonDto {
     private String name;
     private long cellPhone;
 
+    public PersonDto() {
+    }
+
+    
     public long getId() {
         return id;
     }
@@ -38,6 +42,5 @@ public class PersonDto {
         this.cellPhone = cellPhone;
     }
     
-    
-    
+
 }

@@ -4,18 +4,18 @@ import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
 import app.dto.PersonDto;
 import app.dto.UserDto;
-import app.service.Service;
+import app.service.ClubService;
 
 public class PartnerController implements ControllerInterface {
     private PersonValidator personValidator;
     private UserValidator userValidator;
-    private Service service;
+    private ClubService service;
     private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para cerrar sesion \n";
 
     public PartnerController() {
         this.personValidator = new PersonValidator();
         this.userValidator = new UserValidator();
-        this.service = new Service();
+        this.service = new ClubService();
         
     }
     
@@ -29,7 +29,7 @@ public class PartnerController implements ControllerInterface {
 	}
 	private boolean menu() {
 		try {
-			System.out.println("bienvenido " + Service.user.getUserName());
+			System.out.println("bienvenido " + ClubService.user.getUserName());
 			System.out.print(MENU);
 			String option = Utils.getReader().nextLine();
 			return options(option);

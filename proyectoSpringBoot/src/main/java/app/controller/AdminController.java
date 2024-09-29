@@ -5,7 +5,7 @@ import app.controller.validator.UserValidator;
 import app.controller.validator.PartnerValidator;
 import app.dto.PersonDto;
 import app.dto.UserDto;
-import app.service.Service;
+import app.service.ClubService;
 import app.service.interfaces.AdminService;
 import app.service.interfaces.LoginService;
 import java.time.LocalDateTime;
@@ -47,7 +47,7 @@ public class AdminController implements ControllerInterface {
 	}
         	private boolean menu() {
 		try {
-			System.out.println("bienvenido " + Service.user.getUserName());
+			System.out.println("bienvenido " + ClubService.user.getUserName());
 			System.out.print(MENU);
 			String option = Utils.getReader().nextLine();
 			return options(option);

@@ -1,11 +1,15 @@
 package app.dto;
 
+
 public class UserDto {
     private long id; 
     private String userName;
     private String password; 
     private String role; 
     private PersonDto personId;
+
+    public UserDto() {
+    }
 
     public long getId() {
         return id;
@@ -46,6 +50,6 @@ public class UserDto {
     public void setPersonId(PersonDto personId) {
         this.personId = personId;
     }
-    
-    
+
+
 }

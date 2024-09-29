@@ -11,18 +11,26 @@ import app.service.interfaces.LoginService;
 import java.sql.SQLException;
 import app.dto.PartnerDto;
 import app.service.interfaces.AdminService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class Service implements LoginService, AdminService {
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
+
+public class ClubService implements LoginService, AdminService {
+        @Autowired
         private UserDao userDao;
+        @Autowired
         private PersonDao personDao;
+        @Autowired
         private PartnerDao partnerDao;
-        
-        public static UserDto user;
-        
-        public Service() {
-		this.userDao = new UserDaoImplementation();
-		this.personDao = new PersonDaoImplementation();
-            }    
+        @Autowired
+        public static UserDto user;  
 
         @Override
         public void login(UserDto userDto) throws Exception {
@@ -93,7 +101,8 @@ public class Service implements LoginService, AdminService {
             }
             return foundUserDto;
         }
-
+        
+    //Terminar metodo para que funcione la clase PartnerController :(
     public void updateUser(UserDto userDto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
