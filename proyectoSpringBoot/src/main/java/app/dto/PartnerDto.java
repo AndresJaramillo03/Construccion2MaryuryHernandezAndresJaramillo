@@ -8,7 +8,7 @@ public class PartnerDto {
     private UserDto userId;
     private double amount;
     private String type; 
-    private Timestamp creationDate;   
+    private Timestamp creationDate; 
 
     public PartnerDto() {
     }

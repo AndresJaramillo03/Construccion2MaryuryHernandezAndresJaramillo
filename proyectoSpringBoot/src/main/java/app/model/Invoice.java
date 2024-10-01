@@ -31,6 +31,6 @@ public class Invoice {
     @Column (name = "totalamount")
     private double totalAmount;
     @Column (name = "status")
-    private boolean status; 
+    private String status; 
 
 }

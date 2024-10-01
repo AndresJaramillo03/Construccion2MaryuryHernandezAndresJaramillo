@@ -41,12 +41,6 @@ public class PersonDaoImplementation implements PersonDao {
                 personRepository.delete(person);
         }
                 
-                /*
-		String query = "DELETE FROM PERSON WHERE DOCUMENT = ?";
-		PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-		preparedStatement.setLong(1,person.getCedula());
-		preparedStatement.execute();
-		preparedStatement.close();	}*/
 
 	@Override
 	public PersonDto findByDocument(PersonDto personDto) throws Exception {
@@ -54,24 +48,6 @@ public class PersonDaoImplementation implements PersonDao {
             return Helper.parse(person);
             
             
-            
-		/*String query = "SELECT ID,NAME,DOCUMENT,CELLPHONE FROM PERSON WHERE DOCUMENT = ?";
-		PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-		preparedStatement.setLong(1, personDto.getCedula());
-		ResultSet resulSet = preparedStatement.executeQuery();
-		if (resulSet.next()) {
-			Person person = new Person();
-			person.setId(resulSet.getLong("ID"));
-			person.setName(resulSet.getString("NAME"));
-			person.setCedula(resulSet.getLong("DOCUMENT"));
-			person.setCellPhone(resulSet.getLong("CELLPHONE"));
-			resulSet.close();
-			preparedStatement.close();
-			return Helper.parse(person);
-		}
-		resulSet.close();
-		preparedStatement.close();
-		return null; */ 
         }
 
 }

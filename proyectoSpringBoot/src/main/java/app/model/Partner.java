@@ -33,6 +33,6 @@ public class Partner {
     @Column (name = "type")
     private String type; 
     @Column (name = "date")
-    private Timestamp date;
+    private Timestamp creationDate;
    
 }

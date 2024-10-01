@@ -5,7 +5,7 @@ public class GuestDto {
     private long id;
     private UserDto userId;
     private PartnerDto partnerId;
-    private boolean status;
+    private String status;
 
     public GuestDto() {
     }
@@ -34,13 +34,12 @@ public class GuestDto {
         this.partnerId = partnerId;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
-    
 
 }

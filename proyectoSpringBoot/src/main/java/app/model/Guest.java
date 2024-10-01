@@ -29,6 +29,6 @@ public class Guest {
     @ManyToOne
     private Partner partnerId;
     @Column (name = "status")
-    private boolean status; 
+    private String status; 
 
 }

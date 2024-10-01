@@ -2,7 +2,7 @@ package app.dto;
 
 
 public class InvoiceDetailDto {
-    private long id; 
+    private long id;
     private InvoiceDto invoiceId; 
     private int item;
     private String description;
