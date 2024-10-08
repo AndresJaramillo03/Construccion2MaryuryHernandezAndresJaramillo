@@ -1,16 +1,38 @@
 package app.controller;
 
+import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
+import app.dto.InvoiceDetailDto;
+import app.dto.InvoiceDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
 import app.service.interfaces.AdminService;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+
+@Controller
+@NoArgsConstructor
+@Getter
+@Setter
 
 public class GuestController implements ControllerInterface {
+        @Autowired
         private PersonValidator personValidator;
+        @Autowired
 	private UserValidator userValidator;
+        @Autowired
         private ClubService service;
+        @Autowired
+        private InvoiceValidator invoiceValidator;
+        
         private static final String MENU = "Ingrese la opcion que desea\n1 1: Ser socio \n2 Cerrar la Sesion\n";
     
     
@@ -65,5 +87,27 @@ public class GuestController implements ControllerInterface {
             //this.service.createPartner(currentUser);
 
             System.out.println("El usuario ha sido convertido a socio exitosamente");
+        }
+        
+        public void InvoiceDetailDto()throws Exception {
+            System.out.println("ingrese el numerp de elementos: ");
+            int items = invoiceValidator.validItem(Utils.getReader().nextLine());
+            List<InvoiceDetailDto> invoices = new ArrayList<InvoiceDetailDto>();
+            InvoiceDto invoiceDto = new InvoiceDto();
+            invoiceDto.setId(items);
+            
+            int total = 0;
+            for (int i = 0; i < items; i++){
+                InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+                invoiceDetailDto.setInvoiceId(invoiceDto);
+                invoiceDetailDto.setItem((i + 1));
+                System.out.println("Ingrese el monto del item " + invoiceDetailDto.getItem());
+                invoiceDetailDto.setAmount(invoiceValidator.validAmount(Utils.getReader().nextLine()));
+                total += invoiceDetailDto.getAmount();
+                invoices.add(invoiceDetailDto);
+                   
+            }
+            invoiceDto.setTotalAmount(total);
+            this.service.createInvoice(invoices);            
         }
 }

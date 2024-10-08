@@ -21,4 +21,10 @@ public class InvoiceValidator extends CommonsValidator {
 	public double validTotalAmonunt(String totalAmount) throws Exception{
                 return super.isValidDouble("El monto de la factura", totalAmount);
 	}
+        public int validItem(String item) throws Exception {
+            return super.isValidInteger("numero de items de la factura", item);
+        }
+        public double validAmount(String item) throws Exception {
+            return super.isValidDouble("valor del item", item);
+        }
 }
