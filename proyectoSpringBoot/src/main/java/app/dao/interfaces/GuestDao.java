@@ -1,13 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package app.dao.interfaces;
 
-/**
- *
- * @author Maryuri
- */
+import app.dto.GuestDto;
+
+
 public interface GuestDao {
     
+    public void createGuest (GuestDto guestDto) throws Exception;
+    
+    public void findById (GuestDto guestDto) throws Exception;
+    
+    public void updateGuest (GuestDto guestDto) throws Exception;
+
 }

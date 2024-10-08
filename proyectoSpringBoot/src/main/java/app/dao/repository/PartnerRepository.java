@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PartnerRepository extends JpaRepository<Partner,Long>{
 
-    public  Partner findByUserId(UserDto userId);
-   
+    public Partner findByUserId(UserDto userId);
     
-    
+    public Partner findById (long id);
 }

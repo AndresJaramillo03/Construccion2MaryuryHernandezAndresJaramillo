@@ -15,4 +15,5 @@ public interface PartnerDao {
         public void createPartner(PartnerDto partnerDto) throws Exception;
     
         public void updatePartner (PartnerDto partnerDto) throws Exception;
+        
 }

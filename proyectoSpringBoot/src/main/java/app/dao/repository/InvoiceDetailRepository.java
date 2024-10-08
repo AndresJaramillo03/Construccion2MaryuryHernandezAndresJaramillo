@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InvoiceDetailRepository extends JpaRepository <InvoiceDetail,Long> {
     
+    public InvoiceDetail findById (long id);
 }

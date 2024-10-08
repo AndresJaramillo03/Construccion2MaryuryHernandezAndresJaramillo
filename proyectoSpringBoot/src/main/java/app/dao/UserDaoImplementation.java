@@ -48,6 +48,5 @@ public class UserDaoImplementation implements UserDao {
         public void updateUser (UserDto userDto) throws Exception {
             User user = Helper.parse(userDto);
             userRepository.save(user);
-            
         }
 }

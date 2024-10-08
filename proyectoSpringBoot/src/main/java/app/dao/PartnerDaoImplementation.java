@@ -31,7 +31,8 @@ public class PartnerDaoImplementation implements PartnerDao{
 
     @Override
     public PartnerDto findById(PartnerDto partnerDto) throws Exception {
-         throw new UnsupportedOperationException("Not supported yet.");
+            Partner partner = partnerRepository.findById(partnerDto.getId());
+            return Helper.parse(partner);
     }
 
     @Override
@@ -40,8 +41,10 @@ public class PartnerDaoImplementation implements PartnerDao{
     }
 
     @Override
-    public void createPartner(PartnerDto partnerDto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void createPartner(PartnerDto partnerDto) throws Exception {
+        Partner partner = Helper.parse(partnerDto);
+        partnerRepository.save(partner);
+        partnerDto.setId(partner.getId());
     }
     
     @Override

@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package app.dao.interfaces;
 
-/**
- *
- * @author Maryuri
- */
+import app.dto.InvoiceDto;
+
 public interface InvoiceDao {
     
+    public void createInvoice(InvoiceDto invoiceDto) throws Exception;
 }

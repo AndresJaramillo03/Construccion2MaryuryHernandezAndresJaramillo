@@ -7,8 +7,8 @@ public class PartnerDto {
     private long id;
     private UserDto userId;
     private double amount;
-    private String type; 
-    private Timestamp creationDate; 
+    private String type;
+    private Timestamp creationDate;
 
     public PartnerDto() {
     }
@@ -52,6 +52,4 @@ public class PartnerDto {
     public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
-    
-
 }
