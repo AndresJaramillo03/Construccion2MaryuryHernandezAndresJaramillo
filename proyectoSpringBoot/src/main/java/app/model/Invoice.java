@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Date;
 import lombok.Getter;
@@ -22,9 +24,11 @@ public class Invoice {
     @GeneratedValue (strategy=GenerationType.IDENTITY)
     @Column (name = "id")
     private long id; 
-    @Column (name = "person")
+    @JoinColumn (name = "person")
+    @OneToOne
     private Person userId; 
-    @Column (name = "parterid")
+    @JoinColumn (name = "parterid")
+    @OneToOne
     private Partner partnerId;
     @Column (name = "creatidate")
     private Date creationDate;
