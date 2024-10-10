@@ -10,7 +10,7 @@ public interface PartnerDao {
 
 	public boolean existsById(PartnerDto userDto) throws Exception;
         
-        public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception;
+        public PartnerDto findByUserId(UserDto partnerDto) throws Exception;
 
         public void createPartner(PartnerDto partnerDto) throws Exception;
     

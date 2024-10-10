@@ -22,8 +22,8 @@ public class Invoice {
     @GeneratedValue (strategy=GenerationType.IDENTITY)
     @Column (name = "id")
     private long id; 
-    @Column (name = "userid")
-    private User userId; 
+    @Column (name = "person")
+    private Person userId; 
     @Column (name = "parterid")
     private Partner partnerId;
     @Column (name = "creatidate")

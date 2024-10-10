@@ -10,6 +10,7 @@ import app.dao.interfaces.PartnerDao;
 import app.dao.repository.PartnerRepository;
 import app.helpers.Helper;
 import app.dto.PartnerDto;
+import app.dto.UserDto;
 import app.model.Partner;
 
 @Getter
@@ -22,8 +23,8 @@ public class PartnerDaoImplementation implements PartnerDao{
     PartnerRepository partnerRepository;
 
     @Override
-    public PartnerDto findByUserId(PartnerDto partnerDto) throws Exception {
-            Partner partner = partnerRepository.findByUserId(partnerDto.getUserId());
+    public PartnerDto findByUserId(UserDto userDto) throws Exception {
+            Partner partner = partnerRepository.findByUserId(userDto);
             //if()
             //throw new Exception("");
             return Helper.parse(partner);

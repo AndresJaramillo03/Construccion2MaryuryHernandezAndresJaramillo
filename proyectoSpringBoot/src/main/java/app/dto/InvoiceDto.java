@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class InvoiceDto {
     private long id; 
-    private UserDto userId; 
+    private PersonDto userId; 
     private PartnerDto partnerId;
     private Date creationDate;
     private double totalAmount;
@@ -22,11 +22,11 @@ public class InvoiceDto {
         this.id = id;
     }
 
-    public UserDto getUserId() {
+    public PersonDto getUserId() {
         return userId;
     }
 
-    public void setUserId(UserDto userId) {
+    public void setUserId(PersonDto userId) {
         this.userId = userId;
     }
 
