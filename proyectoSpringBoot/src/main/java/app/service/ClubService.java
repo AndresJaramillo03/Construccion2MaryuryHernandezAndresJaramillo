@@ -132,11 +132,31 @@ public class ClubService implements LoginService, AdminService, PartnerService {
         return foundUserDto;
     }
 
-    //Terminar metodo para que funcione la clase PartnerController :( Actualizar
-    public void updateUser(UserDto userDto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    @Override
+    public void activateGuest(GuestDto guestDto) throws Exception{
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+        guestDto = guestDao.findById(guestDto);
+        
+        if(guestDto.getPartnerId().getId() != partnerDto.getId()){
+            throw new Exception("El invitado no se puede activar ya que no pertenece al socio");
+        }
+        
+        guestDto.setStatus("Active");
+        guestDao.updateGuest(guestDto);
     }
-
+    
+    @Override
+    public void inactivateGuest(GuestDto guestDto) throws Exception{
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+        guestDto = guestDao.findById(guestDto);
+        
+        if(guestDto.getPartnerId().getId() != partnerDto.getId()){
+            throw new Exception("El invitado no se puede desactivar ya que no pertenece al socio");
+        }
+        
+        guestDto.setStatus("Inactive");
+        guestDao.updateGuest(guestDto);
+    }
     
     public void createInvoice(List<InvoiceDetailDto> invoiceDtoList) throws Exception {
         InvoiceDto invoiceDto = invoiceDtoList.get(0).getInvoiceId();
@@ -153,5 +173,29 @@ public class ClubService implements LoginService, AdminService, PartnerService {
             invoiceDetailDto.setInvoiceId(invoiceDto);
             this.invoiceDetailDao.createInvoiceDetail(invoiceDetailDto);
         }
+    }
+
+    
+    @Override
+    public void requestUnsubscribe() throws Exception{
+        //Condiciones: No tener facturas sin pagar. ----------------------------------------------------------------------------
+        personDao.deletePerson(user.getPersonId());
+    }
+    
+    @Override
+    public void rechargeFunds(double amount) throws Exception{
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+        double currentAmount = partnerDto.getAmount();
+        
+        if(currentAmount + amount > 1000000 && partnerDto.getType().equalsIgnoreCase("regular")){
+            throw new Exception("El monto excede el maximo permitido");
+        }
+        
+        if(currentAmount + amount > 5000000 && partnerDto.getType().equalsIgnoreCase("vip")){
+            throw new Exception("El monto excede el maximo permitido");
+        }
+       
+        partnerDto.setAmount(currentAmount + amount);
+        partnerDao.updatePartner(partnerDto);
     }
 }

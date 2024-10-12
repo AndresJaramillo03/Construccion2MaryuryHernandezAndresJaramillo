@@ -29,9 +29,9 @@ public class GuestDaoImplementation implements GuestDao {
     } 
     
     @Override
-    public void findById (GuestDto guestDto) throws Exception{
+    public GuestDto findById (GuestDto guestDto) throws Exception{
         Guest guest = guestRepository.findById(guestDto.getId());
-        //return Helper.parse(guest);
+        return Helper.parse(guest);
     }
     
     @Override

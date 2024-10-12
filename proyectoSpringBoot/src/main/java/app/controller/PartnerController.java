@@ -1,5 +1,7 @@
 package app.controller;
 
+import app.controller.validator.GuestValidator;
+import app.controller.validator.PartnerValidator;
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
 import app.dto.GuestDto;
@@ -23,8 +25,13 @@ public class PartnerController implements ControllerInterface {
     @Autowired
     private UserValidator userValidator;
     @Autowired
+    private GuestValidator guestValidator;
+    @Autowired
+    private PartnerValidator partnerValidator;
+    @Autowired
     private ClubService service;
-    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para cerrar sesion \n";
+    
+    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para cerrar sesion \n";
 
 
     
@@ -66,10 +73,13 @@ public class PartnerController implements ControllerInterface {
                     return true;
                 }
                 case "4": {
-                    this.requestDeregistration();
-                    return true;
+                    return this.requestUnsubscribe();
                 }
                 case "5": {
+                    this.rechargeFunds();
+                    return true;
+                }
+                case "6": {
                     System.out.println("se ha cerrado sesion");
                     return false;
                 }
@@ -116,75 +126,40 @@ public class PartnerController implements ControllerInterface {
     }
     
     private void activateGuest() throws Exception {
-        System.out.println("Ingrese el nombre de usuario del invitado que desea activar:");
-        String username = Utils.getReader().nextLine();
-
-        UserDto userDto = service.findUserByUsername(username);
-
-        if (userDto == null) {
-            throw new Exception("No existe un invitado con ese nombre de usuario");
-        }
-
-        if (!userDto.getRole().equals("Inactivo")) {
-            throw new Exception("El invitado ya esta activo o tiene otro rol");
-        }
-
-        userDto.setRole("Activo");
-        service.updateUser(userDto);
-
+        //Validar que si es un socio regular no pueda activar mas de 3 invitado al tiempo ------------------------------------
+        System.out.println("Ingrese el id del invitado que desea activar:");
+        long id = guestValidator.validId(Utils.getReader().nextLine());
+        
+        GuestDto guestDto = new GuestDto();
+        guestDto.setId(id);
+        
+        service.activateGuest(guestDto);
         System.out.println("El invitado ha sido activado exitosamente");
     }
 
     private void deactivateGuest() throws Exception {
-        System.out.println("Ingrese el nombre de usuario del invitado que desea desactivar:");
-        String username = Utils.getReader().nextLine();
-
-        UserDto userDto = service.findUserByUsername(username);
-
-        if (userDto == null) {
-            throw new Exception("No existe un invitado con ese nombre de usuario");
-        }
-
-        if (!userDto.getRole().equals("Activo")) {
-            throw new Exception("El invitado no esta activo");
-        }
-
-        userDto.setRole("Inactivo");
-        service.updateUser(userDto);
-
+        System.out.println("Ingrese el id del invitado que desea desactivar:");
+        long id = guestValidator.validId(Utils.getReader().nextLine());
+        
+        GuestDto guestDto = new GuestDto();
+        guestDto.setId(id);
+        
+        service.inactivateGuest(guestDto);
         System.out.println("El invitado ha sido desactivado exitosamente");
     }
-
-    private void requestGuestDeactivation() throws Exception {
-        System.out.println("Ingrese el nombre de usuario del invitado que desea solicitar baja:");
-        String username = Utils.getReader().nextLine();
-
-        UserDto userDto = service.findUserByUsername(username);
-
-        if (userDto == null) {
-            throw new Exception("No existe un invitado con ese nombre de usuario");
-        }
-
-        userDto.setRole("Baja solicitada");
-        service.updateUser(userDto);
-
-        System.out.println("Se ha solicitado la baja del invitado exitosamente");
+     
+    private boolean requestUnsubscribe() throws Exception{
+        //Validar que no tenga facturas pendientes de pago -----------------------------------------------------------------------
+        this.service.requestUnsubscribe();
+        System.out.println("Se te ha dado de baja con exito! Cerrando sesion");
+        return false;
     }
     
-    public boolean handleOption(int option) {
-        switch (option) {
-            case 4:
-                return requestDeregistration();
-
-            default:
-                return false;
-        }
+    private void rechargeFunds() throws Exception{
+        System.out.println("Ingrese el monto que desea recargar");
+        double amount = partnerValidator.validAmount(Utils.getReader().nextLine());
+        this.service.rechargeFunds(amount);
+        System.out.println("Recarga realizada con exito");
     }
-
-    private boolean requestDeregistration() {
-        System.out.println("Baja solicitada con exito");
-        return true; 
-    }
-     
 }
 
