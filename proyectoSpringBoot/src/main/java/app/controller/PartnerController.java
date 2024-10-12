@@ -2,22 +2,31 @@ package app.controller;
 
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
+import app.dto.GuestDto;
+import app.dto.PartnerDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@Controller
 public class PartnerController implements ControllerInterface {
+    @Autowired
     private PersonValidator personValidator;
+    @Autowired
     private UserValidator userValidator;
+    @Autowired
     private ClubService service;
     private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para cerrar sesion \n";
 
-    public PartnerController() {
-        this.personValidator = new PersonValidator();
-        this.userValidator = new UserValidator();
-        this.service = new ClubService();
-        
-    }
+
     
     @Override
 	public void session() throws Exception {
@@ -93,10 +102,17 @@ public class PartnerController implements ControllerInterface {
         personDto.setCellPhone(celPhone); 
         
         UserDto userDto = new UserDto();
+        userDto.setPersonId(personDto);
         userDto.setUserName(username);
         userDto.setPassword(password);
-        userDto.setRole("Invitado");
-        System.out.println("El usuario ha sido creado exitosamente");
+        userDto.setRole("guest");
+        
+        GuestDto guestDto = new GuestDto();
+        guestDto.setUserId(userDto);
+        guestDto.setStatus("Inactive");
+        
+        this.service.createGuest(guestDto);
+        System.out.println("El Invitado ha sido creado exitosamente");
     }
     
     private void activateGuest() throws Exception {

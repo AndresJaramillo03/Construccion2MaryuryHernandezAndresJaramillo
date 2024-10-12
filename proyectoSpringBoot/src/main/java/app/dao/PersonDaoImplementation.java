@@ -1,10 +1,12 @@
 package app.dao;
 
-import app.config.MYSQLConnection;
 import app.dao.interfaces.PersonDao;
 import app.dao.repository.PersonRepository;
+import app.dto.PartnerDto;
 import app.dto.PersonDto;
+import app.dto.UserDto;
 import app.helpers.Helper;
+import app.model.Partner;
 import app.model.Person;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +51,7 @@ public class PersonDaoImplementation implements PersonDao {
             
             
         }
-
+        
 }
 
 

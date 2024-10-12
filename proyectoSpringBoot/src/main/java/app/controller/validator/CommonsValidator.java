@@ -7,7 +7,7 @@ public abstract class CommonsValidator {
 			throw new Exception(element + " no puede ser un valor vacio");
 		}
 	}
-
+        
 	public int isValidInteger(String element, String value) throws Exception {
 		isValidString(element, value);
 		try {

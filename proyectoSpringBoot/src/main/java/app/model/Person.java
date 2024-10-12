@@ -21,11 +21,11 @@ public class Person {
     @GeneratedValue (strategy=GenerationType.IDENTITY)
     @Column (name= "id")
     private long id;
-    @Column (name="cedula")
+    @Column (name="document")
     private long cedula;
     @Column (name="name")
     private String name;
-    @Column (name="cellPhone")
+    @Column (name="cellphone")
     private long cellPhone;
    
 }

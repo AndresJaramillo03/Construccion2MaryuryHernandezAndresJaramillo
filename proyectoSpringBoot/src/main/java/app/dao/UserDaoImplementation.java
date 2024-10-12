@@ -1,6 +1,5 @@
 package app.dao;
 
-import app.config.MYSQLConnection;
 import app.dao.interfaces.UserDao;
 import app.dao.repository.UserRepository;
 import app.dto.UserDto;

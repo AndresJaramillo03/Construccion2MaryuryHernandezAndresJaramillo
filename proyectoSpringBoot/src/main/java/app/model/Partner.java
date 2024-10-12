@@ -32,7 +32,7 @@ public class Partner {
     private double amount;
     @Column (name = "type")
     private String type; 
-    @Column (name = "date")
+    @Column (name = "creationdate")
     private Timestamp creationDate;
    
 }

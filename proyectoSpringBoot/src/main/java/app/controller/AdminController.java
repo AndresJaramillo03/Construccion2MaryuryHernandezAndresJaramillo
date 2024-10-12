@@ -112,8 +112,6 @@ public class AdminController implements ControllerInterface {
         userValidator.validPassword(password);
         
         System.out.println("Ingrese el monto");
-        double amount = partnerValidator.validAmount(Utils.getReader().nextLine());
-        String type = "partner";
 
         
         PersonDto personDto = new PersonDto();
@@ -129,8 +127,8 @@ public class AdminController implements ControllerInterface {
         userDto.setPersonId(personDto);
         PartnerDto partnerDto = new PartnerDto();
         partnerDto.setUserId(userDto);
-        partnerDto.setAmount(amount);
-        partnerDto.setType(type);
+        partnerDto.setAmount(50000);
+        partnerDto.setType("regular");
         partnerDto.setCreationDate(new Timestamp(System.currentTimeMillis()));
         this.service.createPartner(partnerDto);
         System.out.println("El usuario ha sido creado exitosamente");

@@ -22,9 +22,12 @@ public class PartnerDaoImplementation implements PartnerDao{
     @Autowired
     PartnerRepository partnerRepository;
 
+    
+
+
     @Override
     public PartnerDto findByUserId(UserDto userDto) throws Exception {
-            Partner partner = partnerRepository.findByUserId(userDto);
+            Partner partner = partnerRepository.findByUserId(userDto.getId());
             //if()
             //throw new Exception("");
             return Helper.parse(partner);
