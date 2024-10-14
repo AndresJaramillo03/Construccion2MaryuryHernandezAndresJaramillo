@@ -49,6 +49,4 @@ public class UserDto {
     public void setPersonId(PersonDto personId) {
         this.personId = personId;
     }
-
-
 }

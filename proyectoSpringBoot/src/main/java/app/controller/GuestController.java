@@ -3,6 +3,7 @@ package app.controller;
 import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
+import app.dto.GuestDto;
 import app.dto.InvoiceDetailDto;
 import app.dto.InvoiceDto;
 import app.dto.PersonDto;
@@ -33,7 +34,7 @@ public class GuestController implements ControllerInterface {
         @Autowired
         private InvoiceValidator invoiceValidator;
         
-        private static final String MENU = "Ingrese la opcion que desea\n1 1: Ser socio \n2 Cerrar la Sesion\n";
+        private static final String MENU = "Ingrese la opcion que desea\n1 Ser socio \n2 Realizar consumo \n3 Cerrar la Sesion\n";
     
     
     	@Override
@@ -60,17 +61,21 @@ public class GuestController implements ControllerInterface {
 	}
         private boolean options(String option) throws Exception{
 		switch (option) {
-		case "1": {
+		/*case "1": {
 			this.convertPartner();
 			return true;
-		}
+		}*/
 
-		case "2": {
+                /*case "2": {
+			this.realizarConsumo();
+			return true;*/
+                        
+		case "3": {
 			System.out.println("se ha cerrado sesion");
 			return false;
 		}
 		default: {
-			System.out.println("ingrese una opcion valida");
+			System.out.println("Ingrese una opcion valida");
 			return true;
 		}
 		}
@@ -90,7 +95,7 @@ public class GuestController implements ControllerInterface {
         }
         
         public void InvoiceDetailDto()throws Exception {
-            System.out.println("ingrese el numerp de elementos: ");
+            System.out.println("Ingrese el numero de elementos: ");
             int items = invoiceValidator.validItem(Utils.getReader().nextLine());
             List<InvoiceDetailDto> invoices = new ArrayList<InvoiceDetailDto>();
             InvoiceDto invoiceDto = new InvoiceDto();

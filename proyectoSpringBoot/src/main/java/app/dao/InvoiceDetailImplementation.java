@@ -33,6 +33,5 @@ public class InvoiceDetailImplementation implements  InvoiceDetailDao {
     public InvoiceDetailDto findById (InvoiceDetailDto invoiceDetailDto) throws Exception {
         InvoiceDetail invoiceDetal = invoiceDetailRepository.findById(invoiceDetailDto.getId());
         return Helper.parse(invoiceDetal);
-    }
-    
+    }  
 }

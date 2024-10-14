@@ -31,5 +31,4 @@ public class User {
     @JoinColumn (name= "personid")
     @OneToOne
     private Person personId;
-    
 }

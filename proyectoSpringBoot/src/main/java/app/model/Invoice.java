@@ -36,5 +36,4 @@ public class Invoice {
     private double totalAmount;
     @Column (name = "status")
     private String status; 
-
 }

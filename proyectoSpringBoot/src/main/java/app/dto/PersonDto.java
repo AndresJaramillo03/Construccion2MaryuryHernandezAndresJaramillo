@@ -9,7 +9,6 @@ public class PersonDto {
     public PersonDto() {
     }
 
-    
     public long getId() {
         return id;
     }
@@ -41,6 +40,4 @@ public class PersonDto {
     public void setCellPhone(long cellPhone) {
         this.cellPhone = cellPhone;
     }
-    
-
 }

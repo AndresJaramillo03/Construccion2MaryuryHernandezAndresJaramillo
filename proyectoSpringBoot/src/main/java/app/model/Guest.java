@@ -32,5 +32,4 @@ public class Guest {
     private Partner partnerId;
     @Column (name = "status")
     private String status; 
-
 }

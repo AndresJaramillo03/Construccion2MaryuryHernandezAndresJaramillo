@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
@@ -33,6 +32,5 @@ public class Partner {
     @Column (name = "type")
     private String type; 
     @Column (name = "creationdate")
-    private Timestamp creationDate;
-   
+    private Timestamp creationDate;  
 }

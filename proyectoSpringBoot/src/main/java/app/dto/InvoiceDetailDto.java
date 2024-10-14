@@ -1,6 +1,5 @@
 package app.dto;
 
-
 public class InvoiceDetailDto {
     private long id;
     private InvoiceDto invoiceId; 
@@ -50,6 +49,4 @@ public class InvoiceDetailDto {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    
-
 }

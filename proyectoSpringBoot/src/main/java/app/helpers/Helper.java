@@ -82,6 +82,7 @@ public abstract class Helper {
         guestDto.setPartnerId(parse(guest.getPartnerId()));
         return guestDto;
     }
+    
 
     public static Guest parse(GuestDto guestDto){
         Guest guest = new Guest();
@@ -133,5 +134,4 @@ public abstract class Helper {
         detailInvoice.setInvoiceId(parse(invoiceDetailDto.getInvoiceId()));
         return detailInvoice;
     }
-    
 }

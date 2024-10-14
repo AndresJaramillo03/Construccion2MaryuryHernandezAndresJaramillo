@@ -47,11 +47,6 @@ public class PersonDaoImplementation implements PersonDao {
 	@Override
 	public PersonDto findByDocument(PersonDto personDto) throws Exception {
             Person person = personRepository.findByCedula(personDto.getCedula());
-            return Helper.parse(person);
-            
-            
-        }
-        
+            return Helper.parse(person);       
+        }      
 }
-
-

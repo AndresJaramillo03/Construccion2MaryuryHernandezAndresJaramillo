@@ -9,6 +9,5 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
 
     public boolean existsByCedula(long cedula);
 
-    public Person findByCedula(long cedula);
-    
+    public Person findByCedula(long cedula); 
 }

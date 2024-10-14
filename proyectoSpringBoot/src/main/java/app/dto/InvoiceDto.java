@@ -2,7 +2,6 @@ package app.dto;
 
 import java.util.Date;
 
-
 public class InvoiceDto {
     private long id; 
     private PersonDto userId; 
@@ -61,5 +60,4 @@ public class InvoiceDto {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

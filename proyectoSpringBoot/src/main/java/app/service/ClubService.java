@@ -16,8 +16,11 @@ import app.dto.InvoiceDto;
 import app.service.interfaces.LoginService;
 import java.sql.SQLException;
 import app.dto.PartnerDto;
+import app.helpers.Helper;
+import app.model.Guest;
 import app.service.interfaces.AdminService;
 import app.service.interfaces.PartnerService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,17 +41,15 @@ public class ClubService implements LoginService, AdminService, PartnerService {
     private PersonDao personDao;
     @Autowired
     private PartnerDao partnerDao;
-    
     @Autowired
     private InvoiceDao invoiceDao;
     @Autowired
     private InvoiceDetailDao invoiceDetailDao;
     @Autowired
     private GuestDao guestDao;
-    
-    
+
     public static UserDto user;
-    
+
     @Override
     public void login(UserDto userDto) throws Exception {
         UserDto validateDto = userDao.findByUserName(userDto);
@@ -99,26 +100,26 @@ public class ClubService implements LoginService, AdminService, PartnerService {
         this.createUser(partnerDto.getUserId());
         try {
             this.partnerDao.createPartner(partnerDto);
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Ocurrio un error: " + e.getMessage());
             this.personDao.deletePerson(partnerDto.getUserId().getPersonId());
-        }   
+        }
     }
-    
+
     @Override
-    public void createGuest(GuestDto guestDto) throws Exception{
+    public void createGuest(GuestDto guestDto) throws Exception {
         this.createUser(guestDto.getUserId());
 
         PartnerDto partnerDto = partnerDao.findByUserId(user);
-        
+
         guestDto.setPartnerId(partnerDto);
-        
+
         try {
             this.guestDao.createGuest(guestDto);
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Ocurrio un error: " + e.getMessage());
             this.personDao.deletePerson(guestDto.getUserId().getPersonId());
-        }    
+        }
     }
 
     public UserDto findUserByUsername(String username) throws Exception {
@@ -133,37 +134,41 @@ public class ClubService implements LoginService, AdminService, PartnerService {
     }
 
     @Override
-    public void activateGuest(GuestDto guestDto) throws Exception{
-        PartnerDto partnerDto = partnerDao.findByUserId(user);
+    public void activateGuest(GuestDto guestDto) throws Exception {
+        /*PartnerDto partnerDto = partnerDao.findByUserId(user);
+        guestDto = guestDao.findById(guestDto);*/
         guestDto = guestDao.findById(guestDto);
-        
-        if(guestDto.getPartnerId().getId() != partnerDto.getId()){
+        if(guestDto== null){
+        throw new Exception ("invitado no existe");
+        }
+
+        if (guestDto.getPartnerId().getUserId().getId() != user.getId()) {
             throw new Exception("El invitado no se puede activar ya que no pertenece al socio");
         }
-        
+
         guestDto.setStatus("Active");
         guestDao.updateGuest(guestDto);
     }
-    
+
     @Override
-    public void inactivateGuest(GuestDto guestDto) throws Exception{
+    public void inactivateGuest(GuestDto guestDto) throws Exception {
         PartnerDto partnerDto = partnerDao.findByUserId(user);
         guestDto = guestDao.findById(guestDto);
-        
-        if(guestDto.getPartnerId().getId() != partnerDto.getId()){
+
+        if (guestDto.getPartnerId().getId() != partnerDto.getId()) {
             throw new Exception("El invitado no se puede desactivar ya que no pertenece al socio");
         }
-        
+
         guestDto.setStatus("Inactive");
         guestDao.updateGuest(guestDto);
     }
-    
+
     public void createInvoice(List<InvoiceDetailDto> invoiceDtoList) throws Exception {
         InvoiceDto invoiceDto = invoiceDtoList.get(0).getInvoiceId();
         invoiceDto.setUserId(user.getPersonId());
-        if(user.getRole().equals("Partner")){
+        if (user.getRole().equals("Partner")) {
             invoiceDto.setPartnerId(partnerDao.findByUserId(user));
-        }else{
+        } else {
             GuestDto guestDto = guestDao.findByUserId(user);
             invoiceDto.setPartnerId(guestDto.getPartnerId());
         }
@@ -175,26 +180,31 @@ public class ClubService implements LoginService, AdminService, PartnerService {
         }
     }
 
-    
     @Override
-    public void requestUnsubscribe() throws Exception{
-        //Condiciones: No tener facturas sin pagar. ----------------------------------------------------------------------------
+    public void requestUnsubscribe() throws Exception {
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+        List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+        for (InvoiceDto invoice : invoices) {
+            if (!invoice.getStatus().equals("pagado")) {
+                throw new Exception("el socio tiene facturas sin pagar");
+            }
+        }
         personDao.deletePerson(user.getPersonId());
     }
-    
+
     @Override
-    public void rechargeFunds(double amount) throws Exception{
+    public void rechargeFunds(double amount) throws Exception {
         PartnerDto partnerDto = partnerDao.findByUserId(user);
         double currentAmount = partnerDto.getAmount();
-        
-        if(currentAmount + amount > 1000000 && partnerDto.getType().equalsIgnoreCase("regular")){
+
+        if (currentAmount + amount > 1000000 && partnerDto.getType().equalsIgnoreCase("regular")) {
             throw new Exception("El monto excede el maximo permitido");
         }
-        
-        if(currentAmount + amount > 5000000 && partnerDto.getType().equalsIgnoreCase("vip")){
+
+        if (currentAmount + amount > 5000000 && partnerDto.getType().equalsIgnoreCase("vip")) {
             throw new Exception("El monto excede el maximo permitido");
         }
-       
+
         partnerDto.setAmount(currentAmount + amount);
         partnerDao.updatePartner(partnerDto);
     }

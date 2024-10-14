@@ -1,6 +1,5 @@
 package app.dto;
 
-
 public class GuestDto {
     private long id;
     private UserDto userId;
@@ -41,5 +40,4 @@ public class GuestDto {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

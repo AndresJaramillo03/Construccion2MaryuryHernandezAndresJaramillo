@@ -8,5 +8,4 @@ public interface PartnerService {
     public void inactivateGuest(GuestDto guestDto) throws Exception;
     public void requestUnsubscribe() throws Exception;
     public void rechargeFunds(double amount) throws Exception;
-    
 }

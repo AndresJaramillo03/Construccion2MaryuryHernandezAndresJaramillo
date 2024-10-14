@@ -18,24 +18,28 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Service
 public class GuestDaoImplementation implements GuestDao {
+
     @Autowired
     GuestRepository guestRepository;
-    
+
     @Override
-    public void createGuest (GuestDto guestDto) throws Exception {
+    public void createGuest(GuestDto guestDto) throws Exception {
         Guest guest = Helper.parse(guestDto);
         guestRepository.save(guest);
         guestDto.setId(guest.getId());
-    } 
-    
+    }
+
     @Override
-    public GuestDto findById (GuestDto guestDto) throws Exception{
+    public GuestDto findById(GuestDto guestDto) throws Exception {
         Guest guest = guestRepository.findById(guestDto.getId());
+        if (guest == null) {
+            return null;
+        }
         return Helper.parse(guest);
     }
-    
+
     @Override
-    public void updateGuest (GuestDto guestDto) throws Exception {
+    public void updateGuest(GuestDto guestDto) throws Exception {
         Guest guest = Helper.parse(guestDto);
         guestRepository.save(guest);
     }

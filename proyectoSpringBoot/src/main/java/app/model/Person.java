@@ -27,5 +27,4 @@ public class Person {
     private String name;
     @Column (name="cellphone")
     private long cellPhone;
-   
 }
