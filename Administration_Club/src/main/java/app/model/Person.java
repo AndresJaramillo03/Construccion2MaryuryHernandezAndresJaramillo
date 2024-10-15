@@ -6,6 +6,9 @@ public class Person {
     private String name;
     private long cellPhone;
 
+    public Person() {
+    }
+
     public long getId() {
         return id;
     }

@@ -16,7 +16,7 @@ public class AdminController implements ControllerInterface {
 	private UserValidator userValidator;
         private PartnerValidator partnerValidator;
 	private AdminService adminService;
-        private LoginService service;
+        private AdminService service;
 	private static final String MENU = "ingrese la opcion que desea \n 1. para crear socio \n 2. para ver factura Club \n 3. para ver factura Socio \n 4. para ver factura Invitado \n 5. para aprobar promocion \n 6. para cerrar sesion \n";
 
 	public AdminController() {
@@ -58,7 +58,24 @@ public class AdminController implements ControllerInterface {
 		}
 
 		case "2": {
-			System.out.println("se ha cerrado sesion");
+			System.out.println("Visualización de factura.");
+			return false;
+		}
+		case "3": {
+			System.out.println("Visualización de factura de club.");
+			return false;
+		}
+		case "4": {
+			System.out.println("Visualización de factura de socio.");
+			return false;
+		}
+		case "5": {
+			System.out.println("Visualización de factura de invitado.");
+			return false;
+		}
+                
+		case "6": {
+			System.out.println("Se ha cerrado sesion");
 			return false;
 		}
 		default: {
@@ -105,7 +122,7 @@ public class AdminController implements ControllerInterface {
         partnerDto.setAmount(amount);
         partnerDto.setType(type);
         partnerDto.setCreationDate(LocalDateTime.now());
-        this.service.createPartner(userDto);
+        this.service.createPartner(partnerDto);
         System.out.println("El usuario ha sido creado exitosamente");
                 
     }

@@ -7,6 +7,9 @@ public class InvoiceDetail {
     private String description;
     private double amount; 
 
+    public InvoiceDetail() {
+    }
+
     public long getId() {
         return id;
     }

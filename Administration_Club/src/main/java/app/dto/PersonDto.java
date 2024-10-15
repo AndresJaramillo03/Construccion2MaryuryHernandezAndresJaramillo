@@ -6,6 +6,9 @@ public class PersonDto {
     private String name;
     private long cellPhone;
 
+    public PersonDto() {
+    }
+
     public long getId() {
         return id;
     }
