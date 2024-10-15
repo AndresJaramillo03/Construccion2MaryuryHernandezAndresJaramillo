@@ -9,6 +9,9 @@ public class Partner {
     private String type; 
     private Date date;
 
+    public Partner() {
+    }
+
     public long getId() {
         return id;
     }

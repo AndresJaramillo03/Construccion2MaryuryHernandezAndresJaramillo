@@ -6,6 +6,9 @@ public class Guest {
     private Partner partnerId;
     private boolean status; 
 
+    public Guest() {
+    }
+
     public long getId() {
         return id;
     }

@@ -61,7 +61,7 @@ public class GuestController implements ControllerInterface {
 
             currentUser.setRole("Socio");
 
-            this.service.createPartner(currentUser);
+            //this.service.createPartner(currentUser);
 
             System.out.println("El usuario ha sido convertido a socio exitosamente");
         }

@@ -10,6 +10,10 @@ public class Invoice {
     private double totalAmount;
     private boolean status; 
 
+    public Invoice() {
+    }
+    
+
     public long getId() {
         return id;
     }

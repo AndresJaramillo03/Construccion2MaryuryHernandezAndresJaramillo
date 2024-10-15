@@ -5,8 +5,12 @@ public class Detail_InvoiceDto {
     private InvoiceDto invoiceId; 
     private int item;
     private String description;
-    private double amount; 
+    private double amount;
 
+    public Detail_InvoiceDto() {
+    }
+    
+    
     public long getId() {
         return id;
     }

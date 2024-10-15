@@ -7,6 +7,9 @@ public class UserDto {
     private String role; 
     private PersonDto personId;
 
+    public UserDto() {
+    }
+
     public long getId() {
         return id;
     }
