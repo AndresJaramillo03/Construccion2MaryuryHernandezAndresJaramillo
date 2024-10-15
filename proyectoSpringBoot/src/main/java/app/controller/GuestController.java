@@ -34,7 +34,7 @@ public class GuestController implements ControllerInterface {
         @Autowired
         private InvoiceValidator invoiceValidator;
         
-        private static final String MENU = "Ingrese la opcion que desea\n1 Ser socio \n2 Realizar consumo \n3 Cerrar la Sesion\n";
+        private static final String MENU = "Ingrese la opcion que desea\n1. Ser socio \n2. Realizar consumo \n3. Cerrar la Sesion\n";
     
     
     	@Override
