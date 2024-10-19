@@ -172,20 +172,18 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
         invoiceDto.setUserId(user.getPersonId());
         if (user.getRole().equalsIgnoreCase("Partner")) {
             invoiceDto.setPartnerId(partnerDao.findByUserId(user));
-        } else if(user.getRole().equalsIgnoreCase("Guest")) {
+        } else {
             GuestDto guestDto = guestDao.findByUserId(user);
-            //invoiceDto.setPartnerId(guestDto.getPartnerId());
-            System.out.println("Final");
+            
+            invoiceDto.setPartnerId(guestDto.getPartnerId());
         }
         
         double total = 0;
-        
         for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList){
             total += invoiceDetailDto.getInvoiceId().getTotalAmount();
         }
         invoiceDto.setTotalAmount(total);
         this.invoiceDao.createInvoice(invoiceDto);
-
         for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList) {
             invoiceDetailDto.setInvoiceId(invoiceDto);
             this.invoiceDetailDao.createInvoiceDetail(invoiceDetailDto);
