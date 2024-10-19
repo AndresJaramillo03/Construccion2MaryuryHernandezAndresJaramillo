@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,15 +26,15 @@ public class Invoice {
     @GeneratedValue (strategy=GenerationType.IDENTITY)
     @Column (name = "id")
     private long id; 
-    @JoinColumn (name = "person")
+    @JoinColumn (name = "personid")
     @OneToOne
     private Person userId; 
-    @JoinColumn (name = "parterid")
+    @JoinColumn (name = "partnerid")
     @OneToOne
     private Partner partnerId;
-    @Column (name = "creatidate")
-    private Date creationDate;
-    @Column (name = "totalamount")
+    @Column (name = "creationdate")
+    private LocalDateTime creationDate;
+    @Column (name = "amount")
     private double totalAmount;
     @Column (name = "status")
     private String status; 

@@ -27,4 +27,8 @@ public class InvoiceValidator extends CommonsValidator {
         public double validAmount(String item) throws Exception {
             return super.isValidDouble("valor del item", item);
         }
+        
+        public void validProduct(String product) throws Exception{
+		super.isValidString("El producto ", product);
+	}
 }

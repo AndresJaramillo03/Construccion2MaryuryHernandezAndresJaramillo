@@ -44,9 +44,15 @@ public class GuestDaoImplementation implements GuestDao {
         guestRepository.save(guest);
     }
 
-    @Override
+@Override
     public GuestDto findByUserId(UserDto userDto) throws Exception {
         User user = Helper.parse(userDto);
-        return guestRepository.findByUserId(user);
+        Guest guest = guestRepository.findByUserId(user);
+        if (guest == null) {
+            return null;
+        }
+        return Helper.parse(guest);
     }
+    
+    
 }
