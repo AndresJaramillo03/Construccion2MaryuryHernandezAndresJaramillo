@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="partner")
+@Table(name="invoicedetail")
 
 public class InvoiceDetail {
     @Id

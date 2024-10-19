@@ -19,6 +19,7 @@ import app.dto.PartnerDto;
 import app.helpers.Helper;
 import app.model.Guest;
 import app.service.interfaces.AdminService;
+import app.service.interfaces.InvoiceService;
 import app.service.interfaces.PartnerService;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Service
 
-public class ClubService implements LoginService, AdminService, PartnerService {
+public class ClubService implements LoginService, AdminService, PartnerService, InvoiceService {
 
     @Autowired
     private UserDao userDao;
@@ -47,6 +48,8 @@ public class ClubService implements LoginService, AdminService, PartnerService {
     private InvoiceDetailDao invoiceDetailDao;
     @Autowired
     private GuestDao guestDao;
+    
+   
 
     public static UserDto user;
 
@@ -162,18 +165,25 @@ public class ClubService implements LoginService, AdminService, PartnerService {
         guestDto.setStatus("Inactive");
         guestDao.updateGuest(guestDto);
     }
-
+    
+    @Override
     public void createInvoice(List<InvoiceDetailDto> invoiceDtoList) throws Exception {
         InvoiceDto invoiceDto = invoiceDtoList.get(0).getInvoiceId();
         invoiceDto.setUserId(user.getPersonId());
-        if (user.getRole().equals("Partner")) {
+        if (user.getRole().equalsIgnoreCase("Partner")) {
             invoiceDto.setPartnerId(partnerDao.findByUserId(user));
         } else {
             GuestDto guestDto = guestDao.findByUserId(user);
+            
             invoiceDto.setPartnerId(guestDto.getPartnerId());
         }
+        
+        double total = 0;
+        for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList){
+            total += invoiceDetailDto.getInvoiceId().getTotalAmount();
+        }
+        invoiceDto.setTotalAmount(total);
         this.invoiceDao.createInvoice(invoiceDto);
-
         for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList) {
             invoiceDetailDto.setInvoiceId(invoiceDto);
             this.invoiceDetailDao.createInvoiceDetail(invoiceDetailDto);

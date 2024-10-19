@@ -1,0 +1,208 @@
+[33mcommit 071fcbbc6a8beec4ce6cc61f8d67ff2890404b03[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sat Oct 19 00:59:59 2024 -0500
+
+    CHG: General Settings
+
+[33mcommit 4e3183a6daaa18917e9c0b6d1606e9c2a7563814[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sat Oct 19 00:13:18 2024 -0500
+
+    ADD: Creation invoice
+
+[33mcommit a101d07ef92fb3d5a7473ac24a5e60d4a82d88c5[m
+Merge: e08ed81 dded1b4
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Mon Oct 14 23:31:29 2024 -0500
+
+    Merge tag 'entregaversion1.1.0' into develop
+    
+    1.1.0
+
+[33mcommit dded1b40245ca205f38ddbd8decdf940cf36163b[m[33m ([m[1;33mtag: [m[1;33mentregaversion1.1.0[m[33m)[m
+Merge: 7c01791 fd6f858
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Mon Oct 14 23:30:03 2024 -0500
+
+    Merge branch 'release/entregaversion1.1.0'
+
+[33mcommit fd6f858556d9c93e60e7ad971a80ba582af26f09[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Mon Oct 14 23:25:18 2024 -0500
+
+    CHG: General modification
+
+[33mcommit e08ed81cde34473e8fb80a0d4cb0d5ec747500ad[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Mon Oct 14 22:38:56 2024 -0500
+
+    CHG: General correcctions
+
+[33mcommit 546136c60f441e8f20263aa3f6848fc792ac0af0[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Oct 13 22:03:28 2024 -0500
+
+    ADD: Creation of method to activate guest. CHG: General corrections
+
+[33mcommit 88add0a0206848adff97095d21991b55825797b3[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Sat Oct 12 08:44:39 2024 -0500
+
+    ADD: creation of methods in service, invoice logic CHG: and correction of partner and guest logic
+
+[33mcommit ae1d08ab73936c1e89b3fe277acbd7b5c566bc92[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Fri Oct 11 23:27:50 2024 -0500
+
+    CHG: General modifications
+
+[33mcommit 578a28c2f4326bd45ca2bafdd09a83f08f6b439a[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Thu Oct 10 23:14:23 2024 -0500
+
+    CHG: The config package was deleted
+
+[33mcommit ac161cec787ac9bb06ed8cda8fa3710690accbcf[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Wed Oct 9 21:14:37 2024 -0500
+
+    CHG: modifications in model package
+
+[33mcommit b297c7b52eab207e25999852b8da086421b1bacd[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Wed Oct 9 21:02:33 2024 -0500
+
+    ADD:creation of methods in service
+
+[33mcommit a8e33389b9348da52a158c46a52ce185ebdfe082[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Mon Oct 7 22:45:05 2024 -0500
+
+    ADD: methods, CHG: Corrections
+
+[33mcommit bec4eb7070c958bc3eaf9502ea59bee9e8311723[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Mon Oct 7 19:04:33 2024 -0500
+
+    ADD: Added GuestImplementation, InvoiceImplementation, InvoiceDetailImplementation. CHG: Modified the classes: PatnerImplementation and the Dao.Repository classes.
+
+[33mcommit 9fd8de6d328d75c4ee2a83bd7652d1256283f14c[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Tue Oct 1 12:38:37 2024 -0500
+
+    CHG: corrections and modifications
+
+[33mcommit c9bf5cb23088b706745b1aafd52acbac95896120[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 29 10:44:55 2024 -0500
+
+    CHG: Modifying methods in the classes: PartnerDaoImplementation, UserDaoImplementation, PartnerDao, UserDao.
+
+[33mcommit 39fd63fab1e0d93183c7ca9ebf10df7e2d99cf7d[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Mon Sep 23 21:21:44 2024 -0500
+
+    ADD: Creation of helper partnerDto, CHG: General fixes.
+
+[33mcommit 159f45adb20944450ff2580c17a242dd110549d8[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Mon Sep 23 14:03:57 2024 -0500
+
+    ADD: tags added
+
+[33mcommit b6cec42d768c25fb1566b4772132ecf02e3387bf[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 15 21:03:42 2024 -0500
+
+    ADD: creation of repository classes: user and partner. The columns of the user and people classes were created. CHG: Correction in the service class and elimination of duplicate method in loginService; implementation of createPartner method in adminService.
+
+[33mcommit 7c017919a737eb2a62bb204cd01551c9ffce22e5[m
+Merge: 414294d 5b861c6
+Author: AndresJaramillo03 <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 1 05:00:21 2024 -0500
+
+    Merge pull request #1 from AndresJaramillo03/develop
+    
+    Develop
+
+[33mcommit 5b861c6ffa71d404fc24549dd2d3fe2ec95ac923[m
+Merge: 4f6e647 05a880d
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 1 04:54:44 2024 -0500
+
+    Merge tag 'Entrega1MaryuryHernandezAndresFelipeJaramillo' into develop
+    
+    1.0.0
+
+[33mcommit 4f6e6471bdfdafd68179a2b7555a75e15869cf87[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Sun Sep 1 04:11:40 2024 -0600
+
+    CHG: Code completion and bug fixes
+
+[33mcommit 05a880dcc651aa9f72d80b6a11b4bb4f6652d8b5[m[33m ([m[1;33mtag: [m[1;33mEntrega1MaryuryHernandezAndresFelipeJaramillo[m[33m)[m
+Merge: 414294d 6a83bbe
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 1 04:53:17 2024 -0500
+
+    Merge branch 'release/Entrega1MaryuryHernandezAndresFelipeJaramillo'
+
+[33mcommit 6a83bbe003ff51fad1d8b18e53080bfce28f0fac[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sun Sep 1 04:51:06 2024 -0500
+
+    entrega version 1.0.0
+
+[33mcommit c5fc729d121dc59763a762d0d3aef506d959d91b[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Sun Sep 1 02:08:29 2024 -0600
+
+    ADD: insert user and person, CHG: bug fixes
+
+[33mcommit 4d6acd1323613f2047c53b0069f6cf9b307e99ea[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sat Aug 31 20:51:53 2024 -0500
+
+    ADD: Creation of service.interfaces package, code in Service and LoginService class, CHG: Correction in LoginController class
+
+[33mcommit bf0b39d4cb4e235ee588d8d2d5056080faec4347[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Sat Aug 31 17:30:23 2024 -0500
+
+    CHG: Corretions in the AdministrationCulb class
+
+[33mcommit 419af7279227c03ad0a688d7d1d32b748e1ec9d2[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Sat Aug 31 16:22:33 2024 -0600
+
+    ADD: Creating GuestController class
+
+[33mcommit 835ebabbb587c441f49fd880318a7080a80e01f3[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Fri Aug 30 22:02:15 2024 -0600
+
+    CHG:LoginController menu correction
+
+[33mcommit 486afc4f6f6971474b00ef11ecac1bb8e397d89a[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Thu Aug 29 23:30:12 2024 -0600
+
+    ADD: Code implementation in the Dao package, in the personDaoImplementation and UserDaoImplementation classes, CHG: corrections to the AdminController and PartnerController classes
+
+[33mcommit 91a66af6e299edcaff71a21e512c962d7e11ac85[m
+Author: Maryury Hernandez <maryuhernandezma@gmail.com>
+Date:   Thu Aug 29 22:57:23 2024 -0600
+
+    Implementacion de codigo en el package Dao, en las clases personDaoImplementation y UserDaoImplementation, y correccion de error en la clase AdminController y PartnerController
+
+[33mcommit cd0c26aabd547a439d119fd1276557213810bba4[m
+Author: Andres Jaramillo <andresfjaramillo7233@gmail.com>
+Date:   Wed Aug 28 21:08:32 2024 -0500
+
+    add code
+
+[33mcommit 414294ddfdcad4f23793c379b2302c0dc5456cf3[m
+Author: AndresJaramillo03 <andresfjaramillo7233@gmail.com>
+Date:   Wed Aug 28 20:25:47 2024 -0500
+
+    Initial commit
