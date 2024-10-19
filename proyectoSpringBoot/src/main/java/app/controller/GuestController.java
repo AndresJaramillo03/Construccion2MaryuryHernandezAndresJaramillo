@@ -10,6 +10,7 @@ import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
 import app.service.interfaces.AdminService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -66,10 +67,11 @@ public class GuestController implements ControllerInterface {
 			return true;
 		}*/
 
-                /*case "2": {
-			this.realizarConsumo();
-			return true;*/
-                        
+                case "2": {
+			this.makeConsumption();
+			return true;
+                }
+                
 		case "3": {
 			System.out.println("se ha cerrado sesion");
 			return false;
@@ -114,5 +116,43 @@ public class GuestController implements ControllerInterface {
             }
             invoiceDto.setTotalAmount(total);
             this.service.createInvoice(invoices);            
+        }
+        
+    private void makeConsumption () throws Exception {
+            List<InvoiceDetailDto> invoiceDtoList = new ArrayList<>();
+
+            System.out.println ("Ingrese el consumo que desea: ");
+            while(true){
+                System.out.println("Ingrese su producto: ");
+                String product =Utils.getReader().nextLine();
+                invoiceValidator.validProduct(product);
+                System.out.println("Ingrese el valor de su producto: ");
+                double productCost = invoiceValidator.validAmount(Utils.getReader().nextLine());
+                System.out.println("Ingrese la cantidad: ");
+                int quantity = invoiceValidator.validItem(Utils.getReader().nextLine());
+
+                System.out.println("Desea agregar otro producto? \n Enter para continuar comprando \n 1. Para confirmar la compra");
+                String option = Utils.getReader().nextLine();
+
+                InvoiceDto invoiceDto = new InvoiceDto();
+                invoiceDto.setCreationDate(LocalDateTime.now());
+                invoiceDto.setStatus("Pendiente");
+                invoiceDto.setTotalAmount(productCost*quantity);
+
+                InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+                invoiceDetailDto.setDescription(product);
+                invoiceDetailDto.setAmount(productCost);
+                invoiceDetailDto.setItem(quantity);
+                invoiceDetailDto.setInvoiceId(invoiceDto);
+
+                invoiceDtoList.add(invoiceDetailDto);
+
+                if(option.equals("1")){
+                    break;
+
+                }
+            }
+            System.out.println("Compra realizada");
+            this.service.createInvoice(invoiceDtoList);
         }
 }

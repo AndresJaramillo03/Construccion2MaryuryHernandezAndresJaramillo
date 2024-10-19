@@ -1,12 +1,13 @@
 package app.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class InvoiceDto {
     private long id; 
     private PersonDto userId; 
     private PartnerDto partnerId;
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private double totalAmount;
     private String status;
 
@@ -37,11 +38,11 @@ public class InvoiceDto {
         this.partnerId = partnerId;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -1,14 +1,22 @@
 package app.controller;
 
 import app.controller.validator.GuestValidator;
+import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PartnerValidator;
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
 import app.dto.GuestDto;
+import app.dto.InvoiceDetailDto;
+import app.dto.InvoiceDto;
 import app.dto.PartnerDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,8 +38,10 @@ public class PartnerController implements ControllerInterface {
     private PartnerValidator partnerValidator;
     @Autowired
     private ClubService service;
+    @Autowired
+    private InvoiceValidator invoiceValidator;
     
-    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para cerrar sesion \n";
+    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. Para realizar consumo \n 7. para cerrar sesion \n";
 
 
     
@@ -79,7 +89,13 @@ public class PartnerController implements ControllerInterface {
                     this.rechargeFunds();
                     return true;
                 }
+                
                 case "6": {
+                    this.makeConsumption();
+                    return true;
+                }
+                
+                case "7": {
                     System.out.println("se ha cerrado sesion");
                     return false;
                 }
@@ -160,5 +176,43 @@ public class PartnerController implements ControllerInterface {
         double amount = partnerValidator.validAmount(Utils.getReader().nextLine());
         this.service.rechargeFunds(amount);
         System.out.println("Recarga realizada con exito");
+    }
+    
+    private void makeConsumption () throws Exception {
+        List<InvoiceDetailDto> invoiceDtoList = new ArrayList<>();
+       
+        System.out.println ("Ingrese el consumo que desea: ");
+        while(true){
+            System.out.println("Ingrese su producto: ");
+            String product =Utils.getReader().nextLine();
+            invoiceValidator.validProduct(product);
+            System.out.println("Ingrese el valor de su producto: ");
+            double productCost = invoiceValidator.validAmount(Utils.getReader().nextLine());
+            System.out.println("Ingrese la cantidad: ");
+            int quantity = invoiceValidator.validItem(Utils.getReader().nextLine());
+
+            System.out.println("Desea agregar otro producto? \n Enter para continuar comprando \n 1. Para confirmar la compra");
+            String option = Utils.getReader().nextLine();
+            
+            InvoiceDto invoiceDto = new InvoiceDto();
+            invoiceDto.setCreationDate(LocalDateTime.now());
+            invoiceDto.setStatus("Pendiente");
+            invoiceDto.setTotalAmount(productCost*quantity);
+            
+            InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+            invoiceDetailDto.setDescription(product);
+            invoiceDetailDto.setAmount(productCost);
+            invoiceDetailDto.setItem(quantity);
+            invoiceDetailDto.setInvoiceId(invoiceDto);
+            
+            invoiceDtoList.add(invoiceDetailDto);
+            
+            if(option.equals("1")){
+                break;
+                
+            }
+        }
+        System.out.println("Compra realizada");
+        this.service.createInvoice(invoiceDtoList);
     }
 }
