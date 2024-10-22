@@ -1,10 +1,8 @@
 package app.dao;
 
-import app.dao.interfaces.InvoiceDao;
 import app.dao.interfaces.InvoiceDetailDao;
 import app.dao.repository.InvoiceDetailRepository;
 import app.dto.InvoiceDetailDto;
-import app.dto.InvoiceDto;
 import app.helpers.Helper;
 import app.model.InvoiceDetail;
 import lombok.Getter;

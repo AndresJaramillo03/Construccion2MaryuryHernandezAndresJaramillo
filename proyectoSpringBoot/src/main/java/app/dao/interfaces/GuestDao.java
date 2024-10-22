@@ -1,10 +1,7 @@
 package app.dao.interfaces;
 
 import app.dto.GuestDto;
-import app.dto.InvoiceDetailDto;
 import app.dto.UserDto;
-import app.model.Guest;
-import java.util.List;
 
 
 public interface GuestDao {

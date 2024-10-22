@@ -2,13 +2,10 @@ package app.controller;
 
 import app.controller.validator.UserValidator;
 import app.dto.UserDto;
-import app.service.ClubService;
 import java.util.HashMap;
 import java.util.Map;
-import app.controller.ControllerInterface;
 import app.service.interfaces.LoginService;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

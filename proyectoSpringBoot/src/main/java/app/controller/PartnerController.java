@@ -8,15 +8,13 @@ import app.controller.validator.UserValidator;
 import app.dto.GuestDto;
 import app.dto.InvoiceDetailDto;
 import app.dto.InvoiceDto;
-import app.dto.PartnerDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
+import app.model.Partner;
 import app.service.ClubService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,7 +39,7 @@ public class PartnerController implements ControllerInterface {
     @Autowired
     private InvoiceValidator invoiceValidator;
     
-    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. Para realizar consumo \n 7. para cerrar sesion \n";
+    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para realizar consumo \n 7. para cerrar sesion \n";
 
 
     
@@ -166,6 +164,9 @@ public class PartnerController implements ControllerInterface {
      
     private boolean requestUnsubscribe() throws Exception{
         //Validar que no tenga facturas pendientes de pago -----------------------------------------------------------------------
+        
+        Partner partner = entityManager.find(Partner.class, partnerId);
+       
         this.service.requestUnsubscribe();
         System.out.println("Se te ha dado de baja con exito! Cerrando sesion");
         return false;
