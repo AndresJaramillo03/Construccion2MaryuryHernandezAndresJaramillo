@@ -162,15 +162,18 @@ public class PartnerController implements ControllerInterface {
         System.out.println("El invitado ha sido desactivado exitosamente");
     }
      
-    private boolean requestUnsubscribe() throws Exception{
-        //Validar que no tenga facturas pendientes de pago -----------------------------------------------------------------------
-        
-        Partner partner = entityManager.find(Partner.class, partnerId);
-       
+private boolean requestUnsubscribe() throws Exception {
+    try {
+
         this.service.requestUnsubscribe();
-        System.out.println("Se te ha dado de baja con exito! Cerrando sesion");
+        System.out.println("Se te ha dado de baja con éxito! Cerrando sesión.");
+        return true;
+    } catch (Exception e) {
+
+        System.out.println(e.getMessage());
         return false;
     }
+}
     
     private void rechargeFunds() throws Exception{
         System.out.println("Ingrese el monto que desea recargar");

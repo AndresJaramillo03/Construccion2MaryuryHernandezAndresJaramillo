@@ -185,17 +185,20 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
         }
     }
 
-    @Override
-    public void requestUnsubscribe() throws Exception {
-        PartnerDto partnerDto = partnerDao.findByUserId(user);
-        List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
-        for (InvoiceDto invoice : invoices) {
-            if (!invoice.getStatus().equals("pagado")) {
-                throw new Exception("el socio tiene facturas sin pagar");
-            }
+@Override
+public void requestUnsubscribe() throws Exception {
+    PartnerDto partnerDto = partnerDao.findByUserId(user);
+    
+    List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+    
+    for (InvoiceDto invoice : invoices) {
+        if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
+            throw new Exception("No puede darse de baja al socio porque tiene facturas pendientes por pagar.");
         }
-        personDao.deletePerson(user.getPersonId());
     }
+
+    personDao.deletePerson(user.getPersonId());
+}
 
     @Override
     public void rechargeFunds(double amount) throws Exception {
