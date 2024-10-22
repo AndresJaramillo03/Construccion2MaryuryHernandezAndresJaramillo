@@ -10,7 +10,6 @@ import app.dto.InvoiceDetailDto;
 import app.dto.InvoiceDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
-import app.model.Partner;
 import app.service.ClubService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class PartnerController implements ControllerInterface {
     @Autowired
     private InvoiceValidator invoiceValidator;
     
-    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para realizar consumo \n 7. para cerrar sesion \n";
+    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para realizar consumo \n 7. para pagar consumos \n 8. para cerrar sesion\n";
 
 
     
@@ -92,8 +91,11 @@ public class PartnerController implements ControllerInterface {
                     this.makeConsumption();
                     return true;
                 }
-                
                 case "7": {
+                    this.payInvoices();
+                    return true;
+                }
+                case "8": {
                     System.out.println("se ha cerrado sesion");
                     return false;
                 }
@@ -217,6 +219,34 @@ private boolean requestUnsubscribe() throws Exception {
             }
         }
         System.out.println("Compra realizada");
-        this.service.createInvoice(invoiceDtoList);
+        this.service.createInvoice(invoiceDtoList);  
     }
+    
+    private void payInvoices() throws Exception {
+    List<InvoiceDto> pendingInvoices = this.service.getPendingInvoices();
+
+    if (pendingInvoices.isEmpty()) {
+        System.out.println("No tienes facturas pendientes por pagar.");
+        return;
+    }
+
+    System.out.println("Tienes las siguientes facturas pendientes:");
+    double totalPending = 0;
+
+    for (InvoiceDto invoice : pendingInvoices) {
+        System.out.println("Factura ID: " + invoice.getId() + " - Monto: " + invoice.getTotalAmount());
+        totalPending += invoice.getTotalAmount();
+    }
+
+    System.out.println("El total a pagar es: " + totalPending);
+    System.out.println("Deseas proceder con el pago? (si/no): ");
+    String confirmation = Utils.getReader().nextLine();
+
+    if (confirmation.equalsIgnoreCase("si")) {
+        this.service.payPendingInvoices(pendingInvoices);
+        System.out.println("Facturas pagadas exitosamente.");
+    } else {
+        System.out.println("Pago cancelado.");
+    }
+}
 }

@@ -42,4 +42,10 @@ public class InvoiceDaoImplementation implements InvoiceDao {
         }
         return invoicesDto;
     } 
+    
+    @Override
+    public void updateInvoice(InvoiceDto invoiceDto) throws Exception {
+        String sql = "UPDATE invoices SET total_amount = ?, status = ? WHERE id = ?";
+    }
+
 }

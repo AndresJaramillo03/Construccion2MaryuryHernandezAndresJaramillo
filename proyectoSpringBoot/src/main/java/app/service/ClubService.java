@@ -17,6 +17,7 @@ import app.dto.PartnerDto;
 import app.service.interfaces.AdminService;
 import app.service.interfaces.InvoiceService;
 import app.service.interfaces.PartnerService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -216,4 +217,32 @@ public void requestUnsubscribe() throws Exception {
         partnerDto.setAmount(currentAmount + amount);
         partnerDao.updatePartner(partnerDto);
     }
+    
+    public List<InvoiceDto> getPendingInvoices() throws Exception {
+    PartnerDto partnerDto = partnerDao.findByUserId(user);
+
+    List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+    List<InvoiceDto> pendingInvoices = new ArrayList<>();
+
+    for (InvoiceDto invoice : invoices) {
+        if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
+            pendingInvoices.add(invoice);
+        }
+    }
+    
+    return pendingInvoices;
+}
+    
+    @Override
+    public void updateInvoice(InvoiceDto invoiceDto) throws Exception {
+    this.invoiceDao.updateInvoice(invoiceDto);  
+}
+
+    public void payPendingInvoices(List<InvoiceDto> pendingInvoices) throws Exception {
+    for (InvoiceDto invoice : pendingInvoices) {
+        invoice.setStatus("pagado");
+        invoiceDao.updateInvoice(invoice); 
+        }
+    }
+    
 }

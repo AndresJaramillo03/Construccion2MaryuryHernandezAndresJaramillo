@@ -9,4 +9,6 @@ public interface InvoiceDao {
     public void createInvoice(InvoiceDto invoiceDto) throws Exception;
     
     public List<InvoiceDto> findByPartnerId(PartnerDto partnerDto) throws Exception;
+    
+    public void updateInvoice(InvoiceDto invoiceDto) throws Exception;
 }
