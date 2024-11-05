@@ -1,6 +1,5 @@
 package app.dao;
 
-import app.dao.repository.PersonRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,7 +1,5 @@
 package app.service;
 
-import app.dao.PersonDaoImplementation;
-import app.dao.UserDaoImplementation;
 import app.dao.interfaces.GuestDao;
 import app.dao.interfaces.InvoiceDao;
 import app.dao.interfaces.InvoiceDetailDao;
@@ -16,8 +14,6 @@ import app.dto.InvoiceDto;
 import app.service.interfaces.LoginService;
 import java.sql.SQLException;
 import app.dto.PartnerDto;
-import app.helpers.Helper;
-import app.model.Guest;
 import app.service.interfaces.AdminService;
 import app.service.interfaces.InvoiceService;
 import app.service.interfaces.PartnerService;
@@ -190,17 +186,20 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
         }
     }
 
-    @Override
-    public void requestUnsubscribe() throws Exception {
-        PartnerDto partnerDto = partnerDao.findByUserId(user);
-        List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
-        for (InvoiceDto invoice : invoices) {
-            if (!invoice.getStatus().equals("pagado")) {
-                throw new Exception("el socio tiene facturas sin pagar");
-            }
+@Override
+public void requestUnsubscribe() throws Exception {
+    PartnerDto partnerDto = partnerDao.findByUserId(user);
+    
+    List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+    
+    for (InvoiceDto invoice : invoices) {
+        if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
+            throw new Exception("No puede darse de baja al socio porque tiene facturas pendientes por pagar.");
         }
-        personDao.deletePerson(user.getPersonId());
     }
+
+    personDao.deletePerson(user.getPersonId());
+}
 
     @Override
     public void rechargeFunds(double amount) throws Exception {
@@ -218,4 +217,32 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
         partnerDto.setAmount(currentAmount + amount);
         partnerDao.updatePartner(partnerDto);
     }
+    
+    public List<InvoiceDto> getPendingInvoices() throws Exception {
+    PartnerDto partnerDto = partnerDao.findByUserId(user);
+
+    List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+    List<InvoiceDto> pendingInvoices = new ArrayList<>();
+
+    for (InvoiceDto invoice : invoices) {
+        if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
+            pendingInvoices.add(invoice);
+        }
+    }
+    
+    return pendingInvoices;
+}
+    
+    @Override
+    public void updateInvoice(InvoiceDto invoiceDto) throws Exception {
+    this.invoiceDao.updateInvoice(invoiceDto);  
+}
+
+    public void payPendingInvoices(List<InvoiceDto> pendingInvoices) throws Exception {
+    for (InvoiceDto invoice : pendingInvoices) {
+        invoice.setStatus("pagado");
+        invoiceDao.updateInvoice(invoice); 
+        }
+    }
+    
 }
