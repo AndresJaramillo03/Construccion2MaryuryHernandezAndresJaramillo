@@ -7,8 +7,6 @@ import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
 import app.service.interfaces.AdminService;
-import app.service.interfaces.LoginService;
-import java.time.LocalDateTime;
 import app.dto.PartnerDto;
 import java.sql.Timestamp;
 import lombok.Getter;
