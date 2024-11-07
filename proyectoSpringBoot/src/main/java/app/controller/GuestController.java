@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.controller.request.CreateGuestRequest;
 import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PersonValidator;
 import app.controller.validator.UserValidator;
@@ -14,7 +15,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -32,54 +37,15 @@ public class GuestController implements ControllerInterface {
         @Autowired
         private InvoiceValidator invoiceValidator;
         
-        private static final String MENU = "Ingrese la opcion que desea\n1. Ser socio \n2. Realizar consumo \n3. Cerrar la Sesion\n";
-    
     
     	@Override
 	public void session() throws Exception {
-		boolean session = true;
-		while (session) {
-			session = menu();
-		}
-
 	}
-        	private boolean menu() {
-		try {
-			System.out.println("bienvenido " + ClubService.user.getUserName());
-			System.out.print(MENU);
-			String option = Utils.getReader().nextLine();
-			return options(option);
-
-		} catch (
-
-		Exception e) {
-			System.out.println(e.getMessage());
-			return true;
-		}
-	}
-        private boolean options(String option) throws Exception{
-		switch (option) {
-		/*case "1": {
-			this.convertPartner();
-			return true;
-		}*/
-
-                case "2": {
-			this.makeConsumption();
-			return true;
-                }
-                
-		case "3": {
-			System.out.println("se ha cerrado sesion");
-			return false;
-		}
-		default: {
-			System.out.println("Ingrese una opcion valida");
-			return true;
-		}
-		}
-	}
-        private void convertPartner() throws Exception {
+        
+        @PostMapping("/guest")
+        
+        private ResponseEntity convertPartner(@RequestBody CreateGuestRequest request) throws Exception {
+           try{
             UserDto currentUser = ClubService.user;
 
             if (currentUser == null) {
@@ -88,9 +54,11 @@ public class GuestController implements ControllerInterface {
 
             currentUser.setRole("Socio");
 
-            //this.service.createPartner(currentUser);
-
             System.out.println("El usuario ha sido convertido a socio exitosamente");
+              return new ResponseEntity("El usuario ha sido convertido a socio exitosamente", HttpStatus.OK);
+           } catch (Exception e){
+               return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+           }
         }
         
         public void InvoiceDetailDto()throws Exception {

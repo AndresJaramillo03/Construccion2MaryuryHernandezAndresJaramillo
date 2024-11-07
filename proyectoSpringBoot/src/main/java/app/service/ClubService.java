@@ -108,7 +108,7 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     @Override
     public void createGuest(GuestDto guestDto) throws Exception {
         this.createUser(guestDto.getUserId());
-
+        UserDto user = userDao.findByUserName(guestDto.getPartnerId().getUserId());
         PartnerDto partnerDto = partnerDao.findByUserId(user);
 
         guestDto.setPartnerId(partnerDto);

@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.controller.request.CreateUserRequest;
 import app.controller.validator.GuestValidator;
 import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PartnerValidator;
@@ -8,6 +9,7 @@ import app.controller.validator.UserValidator;
 import app.dto.GuestDto;
 import app.dto.InvoiceDetailDto;
 import app.dto.InvoiceDto;
+import app.dto.PartnerDto;
 import app.dto.PersonDto;
 import app.dto.UserDto;
 import app.service.ClubService;
@@ -18,12 +20,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Setter
 @Getter
 @NoArgsConstructor
-@Controller
+@RestController
 public class PartnerController implements ControllerInterface {
     @Autowired
     private PersonValidator personValidator;
@@ -37,89 +44,24 @@ public class PartnerController implements ControllerInterface {
     private ClubService service;
     @Autowired
     private InvoiceValidator invoiceValidator;
-    
-    private static final String MENU = "ingrese la opcion que desea \n 1. para crear invitado \n 2. para activar invitado \n 3. para desactivar invitado \n 4. para solicitar baja \n 5. para recargar fondos\n 6. para realizar consumo \n 7. para pagar consumos \n 8. para cerrar sesion\n";
-
+   
 
     
     @Override
 	public void session() throws Exception {
-		boolean session = true;
-		while (session) {
-			session = menu();
-		}
-
 	}
-	private boolean menu() {
-		try {
-			System.out.println("bienvenido " + ClubService.user.getUserName());
-			System.out.print(MENU);
-			String option = Utils.getReader().nextLine();
-			return options(option);
-
-		} catch (
-
-		Exception e) {
-			System.out.println(e.getMessage());
-			return true;
-		}
-	}
-
-        private boolean options(String option) throws Exception {
-            switch (option) {
-                case "1": {
-                    this.createGuest();
-                    return true;
-                }
-                case "2": {
-                    this.activateGuest();
-                    return true;
-                }
-                case "3": {
-                    this.deactivateGuest();
-                    return true;
-                }
-                case "4": {
-                    return this.requestUnsubscribe();
-                }
-                case "5": {
-                    this.rechargeFunds();
-                    return true;
-                }
-                
-                case "6": {
-                    this.makeConsumption();
-                    return true;
-                }
-                case "7": {
-                    this.payInvoices();
-                    return true;
-                }
-                case "8": {
-                    System.out.println("se ha cerrado sesion");
-                    return false;
-                }
-                default: {
-                    System.out.println("ingrese una opcion valida");
-                    return true;
-                }
-        }
-}
     
-    private void createGuest()throws Exception{
+    @PostMapping ("/createGuest")
+    private ResponseEntity createGuest(@RequestBody CreateUserRequest request )throws Exception{
+        try{
         
-        System.out.println("Ingrese el nombre");
-        String name = Utils.getReader().nextLine();
+        String name = request.getName();
         personValidator.validName(name);
-        System.out.println("Ingrese su cedula");
-        long cedula = personValidator.validCedula(Utils.getReader().nextLine());
-        System.out.println("Ingrese su numero de telefono");
-        long celPhone = personValidator.validCellphone(Utils.getReader().nextLine());
-        System.out.println("Ingrese el nombre del usuario");
-        String username = Utils.getReader().nextLine();
+        long cedula = personValidator.validCedula(request.getDocument());
+        long celPhone = personValidator.validCellphone(request.getNumber());
+        String username = request.getUsername();
         userValidator.validUserName(username);
-        System.out.println("Ingrese la contrasena del usuario");  
-        String password = Utils.getReader().nextLine();
+        String password = request.getPassword();
         userValidator.validPassword(password);
         
         PersonDto personDto = new PersonDto();
@@ -133,12 +75,22 @@ public class PartnerController implements ControllerInterface {
         userDto.setPassword(password);
         userDto.setRole("guest");
         
+        PartnerDto partner = new PartnerDto();
+        UserDto userPartner = new UserDto();
+        userPartner.setUserName(request.getUserNamePartner());
+        partner.setUserId(userPartner);
+        
         GuestDto guestDto = new GuestDto();
         guestDto.setUserId(userDto);
         guestDto.setStatus("Inactive");
+        guestDto.setPartnerId(partner);
         
         this.service.createGuest(guestDto);
-        System.out.println("El Invitado ha sido creado exitosamente");
+        return new ResponseEntity("El Invitado ha sido creado exitosamente", HttpStatus.OK);
+        
+        }catch (Exception e) {
+        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
     
     private void activateGuest() throws Exception {
