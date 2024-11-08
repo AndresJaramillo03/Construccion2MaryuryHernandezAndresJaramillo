@@ -95,6 +95,11 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     }
 
     @Override
+    public List<InvoiceDetailDto> getAllInvoicesDetail() throws Exception{
+        return invoiceDetailDao.findAllInvocesDetail();
+    }
+    
+    @Override
     public void createPartner(PartnerDto partnerDto) throws Exception {
         this.createUser(partnerDto.getUserId());
         try {
@@ -134,8 +139,11 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
 
     @Override
     public void activateGuest(GuestDto guestDto) throws Exception {
-        /*PartnerDto partnerDto = partnerDao.findByUserId(user);
-        guestDto = guestDao.findById(guestDto);*/
+        UserDto user = userDao.findByUserName(guestDto.getPartnerId().getUserId());
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+
+        guestDto.setPartnerId(partnerDto);
+        
         guestDto = guestDao.findById(guestDto);
         if(guestDto== null){
         throw new Exception ("invitado no existe");
@@ -151,7 +159,10 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
 
     @Override
     public void inactivateGuest(GuestDto guestDto) throws Exception {
+        UserDto user = userDao.findByUserName(guestDto.getPartnerId().getUserId());
         PartnerDto partnerDto = partnerDao.findByUserId(user);
+
+        guestDto.setPartnerId(partnerDto);
         guestDto = guestDao.findById(guestDto);
 
         if (guestDto.getPartnerId().getId() != partnerDto.getId()) {
@@ -164,16 +175,24 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     
     @Override
     public void createInvoice(List<InvoiceDetailDto> invoiceDtoList) throws Exception {
+        
         InvoiceDto invoiceDto = invoiceDtoList.get(0).getInvoiceId();
-        invoiceDto.setUserId(user.getPersonId());
-        if (user.getRole().equalsIgnoreCase("Partner")) {
-            invoiceDto.setPartnerId(partnerDao.findByUserId(user));
+        PersonDto personDto = personDao.findByDocument(invoiceDto.getUserId());
+        invoiceDto.setUserId(personDto);
+        
+        UserDto userDto = userDao.findByUserName(invoiceDto.getPartnerId().getUserId());
+        
+        
+        PartnerDto partnerDto = partnerDao.findByUserId(userDto);
+        
+        invoiceDto.setPartnerId(partnerDto);
+        if (userDto.getRole().equalsIgnoreCase("Partner")) {
+            invoiceDto.setPartnerId(partnerDao.findByUserId(userDto));
         } else {
-            GuestDto guestDto = guestDao.findByUserId(user);
+            GuestDto guestDto = guestDao.findByUserId(userDto);
             
             invoiceDto.setPartnerId(guestDto.getPartnerId());
         }
-        
         double total = 0;
         for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList){
             total += invoiceDetailDto.getInvoiceId().getTotalAmount();

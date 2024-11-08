@@ -18,6 +18,10 @@ public class InvoiceValidator extends CommonsValidator {
 		super.isValidString("items de la factura", items);
 	}
 	
+        public long validDocument(String userId) throws Exception{
+            return super.isValidLong("El id del usuario ", userId);
+        }
+        
 	public double validTotalAmonunt(String totalAmount) throws Exception{
                 return super.isValidDouble("El monto de la factura", totalAmount);
 	}
