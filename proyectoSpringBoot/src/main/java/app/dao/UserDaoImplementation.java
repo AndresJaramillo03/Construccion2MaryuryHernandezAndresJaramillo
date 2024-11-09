@@ -21,6 +21,12 @@ public class UserDaoImplementation implements UserDao {
         @Autowired
         UserRepository userRepository;
 
+        @Override
+        public UserDto findById(UserDto userDto) throws Exception {
+            User user = userRepository.findById(userDto.getId());
+            return Helper.parse(user);
+        }
+        
 	@Override
 	public UserDto findByUserName(UserDto userDto) throws Exception {
                 User user = userRepository.findByUserName(userDto.getUserName());

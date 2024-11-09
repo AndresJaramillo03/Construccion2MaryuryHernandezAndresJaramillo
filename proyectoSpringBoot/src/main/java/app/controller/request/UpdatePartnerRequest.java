@@ -4,10 +4,14 @@
  */
 package app.controller.request;
 
-/**
- *
- * @author Alex
- */
-public class CreateGuestRequest {
-    
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class UpdatePartnerRequest {
+    private String amount;
+    private String confirmation;
 }

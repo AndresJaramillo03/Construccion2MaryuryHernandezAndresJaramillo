@@ -5,6 +5,8 @@ import app.dao.repository.InvoiceDetailRepository;
 import app.dto.InvoiceDetailDto;
 import app.helpers.Helper;
 import app.model.InvoiceDetail;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,4 +34,13 @@ public class InvoiceDetailImplementation implements  InvoiceDetailDao {
         InvoiceDetail invoiceDetal = invoiceDetailRepository.findById(invoiceDetailDto.getId());
         return Helper.parse(invoiceDetal);
     }  
+    
+    @Override
+    public List<InvoiceDetailDto> findAllInvocesDetail() throws Exception {
+        List<InvoiceDetail> invoicesDetail = invoiceDetailRepository.findAll();
+
+        if(invoicesDetail.isEmpty()) throw new Exception("No se encontraron detalles de facturas");
+
+        return invoicesDetail.stream().map(Helper::parse).collect(Collectors.toList());
+    }
 }
