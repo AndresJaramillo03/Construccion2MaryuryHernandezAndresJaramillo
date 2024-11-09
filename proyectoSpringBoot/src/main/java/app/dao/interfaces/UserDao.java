@@ -10,5 +10,6 @@ public interface UserDao {
 	
 	public void createUser(UserDto userDto) throws Exception;
         
-        public void updateUser (UserDto userDto) throws Exception;   
+        public void updateUser (UserDto userDto) throws Exception;  
+        public UserDto findById(UserDto userDto) throws Exception;
 }

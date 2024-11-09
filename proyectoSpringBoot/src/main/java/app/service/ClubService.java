@@ -95,6 +95,11 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     }
 
     @Override
+    public List<InvoiceDetailDto> getAllInvoicesDetail() throws Exception{
+        return invoiceDetailDao.findAllInvocesDetail();
+    }
+    
+    @Override
     public void createPartner(PartnerDto partnerDto) throws Exception {
         this.createUser(partnerDto.getUserId());
         try {
@@ -134,29 +139,22 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
 
     @Override
     public void activateGuest(GuestDto guestDto) throws Exception {
-        /*PartnerDto partnerDto = partnerDao.findByUserId(user);
-        guestDto = guestDao.findById(guestDto);*/
         guestDto = guestDao.findById(guestDto);
+        
         if(guestDto== null){
         throw new Exception ("invitado no existe");
         }
-
-        if (guestDto.getPartnerId().getUserId().getId() != user.getId()) {
-            throw new Exception("El invitado no se puede activar ya que no pertenece al socio");
-        }
-
+        
+        
         guestDto.setStatus("Active");
+ 
         guestDao.updateGuest(guestDto);
     }
 
     @Override
     public void inactivateGuest(GuestDto guestDto) throws Exception {
-        PartnerDto partnerDto = partnerDao.findByUserId(user);
-        guestDto = guestDao.findById(guestDto);
 
-        if (guestDto.getPartnerId().getId() != partnerDto.getId()) {
-            throw new Exception("El invitado no se puede desactivar ya que no pertenece al socio");
-        }
+        guestDto = guestDao.findById(guestDto);
 
         guestDto.setStatus("Inactive");
         guestDao.updateGuest(guestDto);
@@ -164,16 +162,24 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     
     @Override
     public void createInvoice(List<InvoiceDetailDto> invoiceDtoList) throws Exception {
+        
         InvoiceDto invoiceDto = invoiceDtoList.get(0).getInvoiceId();
-        invoiceDto.setUserId(user.getPersonId());
-        if (user.getRole().equalsIgnoreCase("Partner")) {
-            invoiceDto.setPartnerId(partnerDao.findByUserId(user));
+        PersonDto personDto = personDao.findByDocument(invoiceDto.getUserId());
+        invoiceDto.setUserId(personDto);
+        
+        UserDto userDto = userDao.findByUserName(invoiceDto.getPartnerId().getUserId());
+        
+        
+        PartnerDto partnerDto = partnerDao.findByUserId(userDto);
+        
+        invoiceDto.setPartnerId(partnerDto);
+        if (userDto.getRole().equalsIgnoreCase("Partner")) {
+            invoiceDto.setPartnerId(partnerDao.findByUserId(userDto));
         } else {
-            GuestDto guestDto = guestDao.findByUserId(user);
+            GuestDto guestDto = guestDao.findByUserId(userDto);
             
             invoiceDto.setPartnerId(guestDto.getPartnerId());
         }
-        
         double total = 0;
         for (InvoiceDetailDto invoiceDetailDto : invoiceDtoList){
             total += invoiceDetailDto.getInvoiceId().getTotalAmount();
@@ -187,7 +193,8 @@ public class ClubService implements LoginService, AdminService, PartnerService, 
     }
 
 @Override
-public void requestUnsubscribe() throws Exception {
+public void requestUnsubscribe(UserDto userDto) throws Exception {
+    user = userDao.findByUserName(userDto);
     PartnerDto partnerDto = partnerDao.findByUserId(user);
     
     List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
@@ -197,37 +204,48 @@ public void requestUnsubscribe() throws Exception {
             throw new Exception("No puede darse de baja al socio porque tiene facturas pendientes por pagar.");
         }
     }
-
     personDao.deletePerson(user.getPersonId());
 }
 
     @Override
-    public void rechargeFunds(double amount) throws Exception {
+    public void rechargeFunds(double amount, UserDto userDto) throws Exception {
+        user = userDao.findByUserName(userDto);
         PartnerDto partnerDto = partnerDao.findByUserId(user);
         double currentAmount = partnerDto.getAmount();
-
+        List<InvoiceDto> pendingInvoices = this.getPendingInvoices(userDto);
+        
         if (currentAmount + amount > 1000000 && partnerDto.getType().equalsIgnoreCase("regular")) {
             throw new Exception("El monto excede el maximo permitido");
         }
-
         if (currentAmount + amount > 5000000 && partnerDto.getType().equalsIgnoreCase("vip")) {
             throw new Exception("El monto excede el maximo permitido");
         }
-
-        partnerDto.setAmount(currentAmount + amount);
+        partnerDto.setAmount(currentAmount  + amount);
+        currentAmount = partnerDto.getAmount();
+        if(!pendingInvoices.isEmpty()){
+            for(InvoiceDto invoice: pendingInvoices){
+                if(currentAmount >= invoice.getTotalAmount()){
+                    currentAmount-= invoice.getTotalAmount();
+                    invoice.setStatus("pagado");
+                    invoiceDao.updateInvoice(invoice);
+                }
+            }
+        }
+        partnerDto.setAmount(currentAmount);
         partnerDao.updatePartner(partnerDto);
     }
     
-    public List<InvoiceDto> getPendingInvoices() throws Exception {
-    PartnerDto partnerDto = partnerDao.findByUserId(user);
+    public List<InvoiceDto> getPendingInvoices(UserDto userDto) throws Exception {
+        user = userDao.findByUserName(userDto);
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
 
-    List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
-    List<InvoiceDto> pendingInvoices = new ArrayList<>();
+        List<InvoiceDto> invoices = invoiceDao.findByPartnerId(partnerDto);
+        List<InvoiceDto> pendingInvoices = new ArrayList<>();
 
-    for (InvoiceDto invoice : invoices) {
-        if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
-            pendingInvoices.add(invoice);
-        }
+        for (InvoiceDto invoice : invoices) {
+            if (!invoice.getStatus().equalsIgnoreCase("pagado")) {
+                pendingInvoices.add(invoice);
+            }
     }
     
     return pendingInvoices;
@@ -237,12 +255,31 @@ public void requestUnsubscribe() throws Exception {
     public void updateInvoice(InvoiceDto invoiceDto) throws Exception {
     this.invoiceDao.updateInvoice(invoiceDto);  
 }
+    @Override
+    public boolean payPendingInvoices(List<InvoiceDto> pendingInvoices,UserDto userDto) throws Exception {
+        user = userDao.findByUserName(userDto);
+        PartnerDto partnerDto = partnerDao.findByUserId(user);
+        double currentAmount = partnerDto.getAmount();
+        
+        int count = 0;
+        for (InvoiceDto invoice : pendingInvoices) {
 
-    public void payPendingInvoices(List<InvoiceDto> pendingInvoices) throws Exception {
-    for (InvoiceDto invoice : pendingInvoices) {
-        invoice.setStatus("pagado");
-        invoiceDao.updateInvoice(invoice); 
+            if(!invoice.getStatus().equalsIgnoreCase("pagado") && invoice.getTotalAmount() <= currentAmount){
+                invoice.setStatus("pagado");
+                currentAmount -= invoice.getTotalAmount();
+                partnerDto.setAmount(currentAmount);
+                invoiceDao.updateInvoice(invoice);
+                partnerDao.updatePartner(partnerDto);
+                count+= 1;
+                
+            }
         }
+        if(count>0){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
     
 }
