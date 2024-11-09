@@ -3,6 +3,8 @@ package app.controller;
 import app.controller.request.CreateInvoiceDetailRequest;
 import app.controller.request.CreateUserRequest;
 import app.controller.request.UpdateGuestRequest;
+import app.controller.request.UpdatePartnerRequest;
+import app.controller.response.InvoiceResponse;
 import app.controller.validator.GuestValidator;
 import app.controller.validator.InvoiceValidator;
 import app.controller.validator.PartnerValidator;
@@ -25,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -98,7 +101,6 @@ public class PartnerController implements ControllerInterface {
     
     @PostMapping("partner/activateGuest")
     private ResponseEntity activateGuest(@RequestBody UpdateGuestRequest request) throws Exception {
-        //Validar que si es un socio regular no pueda activar mas de 3 invitado al tiempo ------------------------------------
         try{
             System.out.println("Ingrese el id del invitado que desea activar:");
             
@@ -124,31 +126,42 @@ public class PartnerController implements ControllerInterface {
 
             service.inactivateGuest(guestDto);
             
-            return new ResponseEntity("El invitado ha sido activado exitosamente",HttpStatus.OK);
+            return new ResponseEntity("El invitado ha sido desactivado exitosamente",HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity(e,HttpStatus.BAD_REQUEST);
         }
     }
      
-private boolean requestUnsubscribe() throws Exception {
-    try {
+    @PostMapping("partner/requestUnsubscribe")
+    private ResponseEntity requestUnsubscribe(@RequestHeader("username") String username) throws Exception {
+        try {
+            UserDto userDto = new UserDto();
+            userValidator.validUserName(username);
+            userDto.setUserName(username);
+            this.service.requestUnsubscribe(userDto);
+            return new ResponseEntity("Se te ha dado de baja con éxito! Cerrando sesión.",HttpStatus.OK);
+        } catch (Exception e) {
 
-        this.service.requestUnsubscribe();
-        System.out.println("Se te ha dado de baja con éxito! Cerrando sesión.");
-        return true;
-    } catch (Exception e) {
-
-        System.out.println(e.getMessage());
-        return false;
+            return new ResponseEntity(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
     
-    private void rechargeFunds() throws Exception{
-        System.out.println("Ingrese el monto que desea recargar");
-        double amount = partnerValidator.validAmount(Utils.getReader().nextLine());
-        this.service.rechargeFunds(amount);
-        System.out.println("Recarga realizada con exito");
+    @PostMapping("partner/rechargeFunds")
+    private ResponseEntity rechargeFunds(@RequestHeader("username") String username,@RequestBody UpdatePartnerRequest request) throws Exception{
+        try{
+            UserDto userDto = new UserDto();
+            userValidator.validUserName(username);
+            userDto.setUserName(username);
+            System.out.println("Ingrese el monto que desea recargar");
+            double amount = partnerValidator.validAmount(request.getAmount());
+            this.service.rechargeFunds(amount,userDto);
+            
+            return new ResponseEntity("Recarga realizada con exito", HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
     
    @PostMapping("partner/makeConsumption")
@@ -191,36 +204,49 @@ private boolean requestUnsubscribe() throws Exception {
                 this.service.createInvoice(invoiceDtoList);
                 return new ResponseEntity("Compra realizada",HttpStatus.OK);
             } catch(Exception e){
-                return new ResponseEntity("ALGO FALLO: " + e,HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
             }
             
         }
     
-    private void payInvoices() throws Exception {
-    List<InvoiceDto> pendingInvoices = this.service.getPendingInvoices();
+    @PostMapping("partner/payInvoices")
+    private ResponseEntity payInvoices(@RequestHeader("username") String username, @RequestBody UpdatePartnerRequest request) throws Exception {
+        try{
+            UserDto userDto = new UserDto();
+            userValidator.validUserName(username);
+            userDto.setUserName(username);
+            List<InvoiceDto> pendingInvoices = this.service.getPendingInvoices(userDto);
+            if (pendingInvoices.isEmpty()) {
+               throw new Exception("No tienes facturas pendientes por pagar.");
+            }
+            System.out.println("Tienes las siguientes facturas pendientes:");
+            double totalPending = 0;
 
-    if (pendingInvoices.isEmpty()) {
-        System.out.println("No tienes facturas pendientes por pagar.");
-        return;
+            for (InvoiceDto invoice : pendingInvoices) {
+                System.out.println("Factura ID: " + invoice.getId() + " - Monto: " + invoice.getTotalAmount());
+                totalPending += invoice.getTotalAmount();
+            }
+
+            System.out.println("El total a pagar es: " + totalPending);
+            System.out.println("Deseas proceder con el pago? (si/no): ");
+            String confirmation = request.getConfirmation();
+
+            if (confirmation.equalsIgnoreCase("si")) {
+                System.out.println(userDto.getUserName());
+                boolean test = this.service.payPendingInvoices(pendingInvoices,userDto);
+                if(test){
+                    
+                return new ResponseEntity("Facturas pagadas exitosamente.",HttpStatus.OK);
+                }
+                else{
+                    return new ResponseEntity("No tienes el monto para pagar alguna factura.",HttpStatus.OK);
+                }
+            } else {
+                return new ResponseEntity("Pago cancelado.",HttpStatus.OK);
+            }
+        }catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
-
-    System.out.println("Tienes las siguientes facturas pendientes:");
-    double totalPending = 0;
-
-    for (InvoiceDto invoice : pendingInvoices) {
-        System.out.println("Factura ID: " + invoice.getId() + " - Monto: " + invoice.getTotalAmount());
-        totalPending += invoice.getTotalAmount();
-    }
-
-    System.out.println("El total a pagar es: " + totalPending);
-    System.out.println("Deseas proceder con el pago? (si/no): ");
-    String confirmation = Utils.getReader().nextLine();
-
-    if (confirmation.equalsIgnoreCase("si")) {
-        this.service.payPendingInvoices(pendingInvoices);
-        System.out.println("Facturas pagadas exitosamente.");
-    } else {
-        System.out.println("Pago cancelado.");
-    }
-}
+    
 }

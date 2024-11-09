@@ -22,4 +22,8 @@ public class UserValidator extends CommonsValidator{
 	public void validRole(String role) throws Exception {
 		super.isValidString("el rol de usuario ", role);
         }
+        
+        public long validId(String id) throws Exception{
+            return super.isValidLong("El id el usuario ", id);
+        }
 }
